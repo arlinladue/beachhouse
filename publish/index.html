@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&amp;family=Libre+Caslon+Text:ital,wght@0,400;1,400&amp;family=Hanken+Grotesk:wght@400;500;600&amp;family=Raleway:wght@400;500;600;700&amp;family=Instrument+Serif:ital@0;1&amp;family=Karla:wght@400;500;600&amp;family=Jost:wght@300;400;500&amp;family=Libre+Baskerville:ital,wght@0,400;1,400&amp;family=Newsreader:opsz,wght@6..72,300;6..72,400&amp;family=Mulish:wght@300;400;500&amp;family=Tinos:ital@0;1&amp;family=Inter+Tight:wght@400;500&amp;family=Inter:wght@400;500&amp;family=EB+Garamond:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:oklch(0.975 0.008 85);color:oklch(0.25 0.03 245);font-family:'Hanken Grotesk',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:oklch(0.25 0.03 245);text-decoration:none}
+a:hover{color:oklch(0.48 0.06 215)}
+*{box-sizing:border-box}
+input,select,button{font:inherit}
+section,header,footer,section>div{transition:background-color .6s ease,color .6s ease}
+</style>
+</helmet>
+
+<div style="{{ themeVars }}">
+<div style="min-height:100vh;background:var(--paper, oklch(0.975 0.008 85));color:var(--ink, oklch(0.25 0.03 245));font-family:var(--sans, 'Hanken Grotesk',sans-serif)">
+
+<header style="position:sticky;top:0;z-index:10;background:var(--paperA, oklch(0.975 0.008 85 / 0.94));backdrop-filter:blur(10px);border-bottom:1px solid var(--line, oklch(0.9 0.01 85))">
+  <div style="max-width:1400px;margin:0 auto;padding:14px clamp(20px,4vw,48px);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <a href="#top" style="display:flex;align-items:baseline;gap:12px">
+      <span style="font-family:var(--logoFont, 'Libre Caslon Display',serif);font-size:var(--logoSize, 24px);text-transform:var(--logoCase, none);letter-spacing:var(--logoTrack, 0);font-weight:var(--logoWeight, 400)">The Beach House</span>
+      <span style="font-size:11px;letter-spacing:0.28em;text-transform:uppercase;color:var(--muted, oklch(0.48 0.02 245))">Exmouth</span>
+    </a>
+    <nav style="display:flex;gap:28px;flex-wrap:wrap;font-size:14px">
+      <a href="#house">The House</a>
+      <a href="#bedrooms">Bedrooms</a>
+      <a href="#floorplan">Floorplan</a>
+      <a href="#seasons">Seasons</a>
+      <a href="#guests">Guests</a>
+      <a href="#exmouth">Exmouth</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="display:flex;gap:2px;padding:3px;border-radius:999px;border:1px solid var(--line, oklch(0.86 0.012 85))">
+        <button onClick="{{ setSummer }}" style="border:0;cursor:pointer;padding:6px 14px;border-radius:999px;font-size:13px;background:{{ summerBg }};color:{{ summerFg }}">Summer</button>
+        <button onClick="{{ setWinter }}" style="border:0;cursor:pointer;padding:6px 14px;border-radius:999px;font-size:13px;background:{{ winterBg }};color:{{ winterFg }}">Winter</button>
+      </div>
+      <a href="#book" style="padding:11px 20px;background:var(--btn, var(--ink, oklch(0.25 0.03 245)));color:var(--btnFg, #fff);font-size:12px;letter-spacing:0.14em;text-transform:uppercase" style-hover="background:var(--btnHover, oklch(0.34 0.04 230));color:var(--btnFg, #fff)">Book now</a>
+    </div>
+  </div>
+</header>
+
+<section id="top" data-screen-label="Hero" style="padding:clamp(12px,1.6vw,20px) clamp(12px,1.6vw,20px) 0">
+  <div style="position:relative;height:min(80vh,860px);min-height:480px;overflow:hidden;background:var(--line, oklch(0.88 0.012 85))">
+    <sc-for list="{{ heroSlides }}" as="hs" hint-placeholder-count="0">
+      <img src="{{ hs.src }}" alt="{{ hs.alt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ hs.op }};transform:scale({{ hs.zoom }});transition:opacity 1.4s ease, transform 8s linear">
+    </sc-for>
+    <div style="position:absolute;top:clamp(16px,2vw,28px);right:clamp(16px,2vw,28px);display:flex;gap:8px;z-index:2">
+      <sc-for list="{{ heroDots }}" as="d" hint-placeholder-count="4">
+        <button onClick="{{ d.onClick }}" aria-label="{{ d.label }}" style="width:{{ d.w }};height:3px;border:0;padding:0;background:#fff;opacity:{{ d.op }};cursor:pointer;transition:width 0.4s,opacity 0.4s"></button>
+      </sc-for>
+    </div>
+    <div style="position:absolute;inset:auto 0 0 0;height:60%;background:linear-gradient(180deg,rgba(12,22,36,0) 0%,rgba(12,22,36,0.6) 100%)"></div>
+    <div style="position:absolute;left:clamp(20px,4vw,56px);right:clamp(20px,4vw,56px);bottom:clamp(28px,4vw,56px);color:#fff;display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap">
+      <div style="display:grid;gap:14px;max-width:900px">
+        <span style="font-size:12px;letter-spacing:0.3em;text-transform:uppercase">Exmouth, Devon · Sleeps 20</span>
+        <sc-if value="{{ isSummer }}" hint-placeholder-val="{{ true }}">
+          <h1 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(42px,6.5vw,92px);line-height:1.02;text-wrap:balance">The whole family, a hundred metres from the sea.</h1>
+        </sc-if>
+        <sc-if value="{{ isWinter }}" hint-placeholder-val="{{ false }}">
+          <h1 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(42px,6.5vw,92px);line-height:1.02;text-wrap:balance">Christmas and New Year by the sea, all under one roof.</h1>
+        </sc-if>
+      </div>
+      <sc-if value="{{ showRating }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;gap:2px;text-align:right">
+          <span style="font-family:var(--display, 'Libre Caslon Display',serif);font-size:34px">4.96</span>
+          <span style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase">Airbnb Guest Favourite</span>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</section>
+
+<section id="house" data-screen-label="The House" style="max-width:1400px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4vw,48px) clamp(48px,6vw,80px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(40px,6vw,96px)">
+  <div style="display:grid;gap:20px;align-content:start">
+    <span style="font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">The House</span>
+    <h2 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(34px,3.8vw,52px);line-height:1.08;text-wrap:balance">A luxury home from home for larger groups and families coming together.</h2>
+  </div>
+  <div style="display:grid;gap:36px;align-content:start">
+    <p style="margin:0;font-family:var(--serif, 'Libre Caslon Text',serif);font-size:19px;line-height:1.65;color:var(--muted, oklch(0.36 0.025 245));text-wrap:pretty">The house was built in 1896 and is designed in the classic Arts and Crafts style, and decorated to a high standard with an airy and beachy feel. Ten double bedrooms, many ensuite with sea views. Three generous reception rooms, a terrace for al fresco dining with pizza oven, and private gardens overlooking Lyme Bay with a large hot tub and a seasonally heated pool.</p>
+    <dl style="margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:24px;border-top:1px solid var(--line, oklch(0.88 0.012 85));padding-top:28px">
+      <div style="display:grid;gap:6px"><dt style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted, oklch(0.48 0.02 245))">Sleeps</dt><dd style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-size:32px">20</dd></div>
+      <div style="display:grid;gap:6px"><dt style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted, oklch(0.48 0.02 245))">Bedrooms</dt><dd style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-size:32px">10</dd></div>
+      <div style="display:grid;gap:6px"><dt style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted, oklch(0.48 0.02 245))">Bathrooms</dt><dd style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-size:32px">9</dd></div>
+      <div style="display:grid;gap:6px"><dt style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted, oklch(0.48 0.02 245))">To the beach</dt><dd style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-size:32px">100m</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="floorplan" data-screen-label="Floorplan" style="border-top:1px solid var(--line, oklch(0.9 0.01 85));background:var(--paper2, oklch(0.955 0.012 85))">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4vw,48px);display:grid;gap:40px">
+    <div style="display:grid;gap:16px;max-width:640px">
+      <span style="font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">Floorplan</span>
+      <h2 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(34px,3.8vw,52px);line-height:1.08;text-wrap:balance">Three floors. Choose who sleeps where.</h2>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(32px,4vw,64px);align-items:flex-start">
+      <div style="flex:1 1 300px;min-width:0;max-width:100%;display:grid;gap:20px">
+        <div style="display:flex;gap:2px;padding:3px;border-radius:999px;border:1px solid var(--line, oklch(0.84 0.012 85));background:var(--paper, oklch(0.985 0.005 85));justify-self:start">
+          <sc-for list="{{ p2Tabs }}" as="t" hint-placeholder-count="3">
+            <button onClick="{{ t.onClick }}" style="border:0;cursor:pointer;padding:8px 16px;border-radius:999px;font-size:13px;background:{{ t.bg }};color:{{ t.fg }}">{{ t.label }}</button>
+          </sc-for>
+        </div>
+        <div style="position:relative;width:min(100%, max(300px, calc(70vh * {{ p2.ar }})));justify-self:center;container-type:inline-size;aspect-ratio:{{ p2.ratio }};filter:drop-shadow(0 10px 18px rgba(20,30,45,0.12))">
+          <svg viewBox="{{ p2.viewBox }}" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
+            <defs>
+              <pattern id="bhLawn" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="oklch(0.91 0.045 135)"></rect><circle cx="1" cy="1.2" r="0.28" fill="oklch(0.6 0.07 140)"></circle><circle cx="3.6" cy="3.4" r="0.28" fill="oklch(0.6 0.07 140)"></circle></pattern>
+              <pattern id="bhGravel" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="oklch(0.94 0.014 80)"></rect><circle cx="1" cy="1" r="0.35" fill="oklch(0.62 0.02 70)"></circle><circle cx="4.2" cy="2.1" r="0.25" fill="oklch(0.62 0.02 70)"></circle><circle cx="2.4" cy="4.6" r="0.3" fill="oklch(0.62 0.02 70)"></circle></pattern>
+              <pattern id="bhPaving" width="6" height="4" patternUnits="userSpaceOnUse"><rect width="6" height="4" fill="oklch(0.92 0.025 65)"></rect><path d="M0 0H6M0 2H6M0 0V2M3 2V4" stroke="oklch(0.68 0.03 60)" stroke-width="0.25" fill="none"></path></pattern>
+              <pattern id="bhWater" width="8" height="4" patternUnits="userSpaceOnUse"><rect width="8" height="4" fill="oklch(0.86 0.055 220)"></rect><path d="M0 2 Q2 1 4 2 T8 2" stroke="oklch(0.62 0.07 225)" stroke-width="0.3" fill="none"></path></pattern>
+              <pattern id="bhHouse" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="3" height="3" fill="oklch(0.33 0.025 245)"></rect><path d="M0 0V3" stroke="oklch(0.45 0.025 245)" stroke-width="0.6"></path></pattern>
+              <pattern id="bhTimber" width="2.4" height="2.4" patternUnits="userSpaceOnUse"><rect width="2.4" height="2.4" fill="oklch(0.88 0.04 70)"></rect><path d="M0 0H2.4" stroke="oklch(0.6 0.05 60)" stroke-width="0.25"></path></pattern>
+              <pattern id="bhHedge" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="3" fill="oklch(0.6 0.075 150)"></rect><circle cx="1" cy="1" r="0.5" fill="oklch(0.5 0.07 150)"></circle><circle cx="2.4" cy="2.3" r="0.4" fill="oklch(0.52 0.07 150)"></circle></pattern>
+              <radialGradient id="bhCanopy"><stop offset="0" stop-color="oklch(0.72 0.08 145)" stop-opacity="0.75"></stop><stop offset="1" stop-color="oklch(0.62 0.08 150)" stop-opacity="0.6"></stop></radialGradient>
+            </defs>
+            <sc-if value="{{ p2Grounds }}"><rect x="0" y="0" width="317.4" height="594.4" fill="oklch(0.965 0.012 95)"></rect></sc-if>
+            <sc-for list="{{ p2.rooms }}" as="r">
+              <polygon points="{{ r.pts }}" fill="{{ r.fill }}" stroke="{{ r.stroke }}" stroke-width="{{ r.sw }}" stroke-linejoin="round" vector-effect="non-scaling-stroke" style="cursor:{{ r.cursor }};transition:fill 0.2s" onMouseEnter="{{ r.onEnter }}" onMouseLeave="{{ r.onLeave }}" onClick="{{ r.onClick }}"></polygon>
+            </sc-for>
+            <sc-if value="{{ p2Grounds }}"><g style="pointer-events:none"><rect x="294.4" y="272.6" width="11.5" height="272.6" rx="5.8" fill="url(#bhHedge)" stroke="oklch(0.38 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></rect><rect x="125.4" y="272.6" width="9" height="244.5" rx="4.5" fill="url(#bhHedge)" stroke="oklch(0.38 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></rect><rect x="76.8" y="14.1" width="133.1" height="9.7" rx="4.9" fill="url(#bhHedge)" stroke="oklch(0.38 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></rect><g><circle cx="64" cy="371.2" r="28.2" fill="url(#bhCanopy)" stroke="oklch(0.42 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></circle><circle cx="64" cy="371.2" r="22" fill="none" stroke="oklch(0.42 0.06 150)" stroke-width="0.5" stroke-dasharray="1.5 1.5" vector-effect="non-scaling-stroke"></circle><circle cx="64" cy="371.2" r="0.9" fill="oklch(0.32 0.05 150)"></circle></g><g><circle cx="48.6" cy="425" r="23" fill="url(#bhCanopy)" stroke="oklch(0.42 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></circle><circle cx="48.6" cy="425" r="18" fill="none" stroke="oklch(0.42 0.06 150)" stroke-width="0.5" stroke-dasharray="1.5 1.5" vector-effect="non-scaling-stroke"></circle><circle cx="48.6" cy="425" r="0.9" fill="oklch(0.32 0.05 150)"></circle></g><g><circle cx="76.8" cy="476.2" r="30.7" fill="url(#bhCanopy)" stroke="oklch(0.42 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></circle><circle cx="76.8" cy="476.2" r="24" fill="none" stroke="oklch(0.42 0.06 150)" stroke-width="0.5" stroke-dasharray="1.5 1.5" vector-effect="non-scaling-stroke"></circle><circle cx="76.8" cy="476.2" r="0.9" fill="oklch(0.32 0.05 150)"></circle></g><g><circle cx="44.8" cy="535" r="25.6" fill="url(#bhCanopy)" stroke="oklch(0.42 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></circle><circle cx="44.8" cy="535" r="20" fill="none" stroke="oklch(0.42 0.06 150)" stroke-width="0.5" stroke-dasharray="1.5 1.5" vector-effect="non-scaling-stroke"></circle><circle cx="44.8" cy="535" r="0.9" fill="oklch(0.32 0.05 150)"></circle></g><g><circle cx="87" cy="565.8" r="21.8" fill="url(#bhCanopy)" stroke="oklch(0.42 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></circle><circle cx="87" cy="565.8" r="17" fill="none" stroke="oklch(0.42 0.06 150)" stroke-width="0.5" stroke-dasharray="1.5 1.5" vector-effect="non-scaling-stroke"></circle><circle cx="87" cy="565.8" r="0.9" fill="oklch(0.32 0.05 150)"></circle></g><g><circle cx="107.5" cy="337.9" r="16.6" fill="url(#bhCanopy)" stroke="oklch(0.42 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></circle><circle cx="107.5" cy="337.9" r="13" fill="none" stroke="oklch(0.42 0.06 150)" stroke-width="0.5" stroke-dasharray="1.5 1.5" vector-effect="non-scaling-stroke"></circle><circle cx="107.5" cy="337.9" r="0.9" fill="oklch(0.32 0.05 150)"></circle></g><g><circle cx="304.6" cy="320" r="14.1" fill="url(#bhCanopy)" stroke="oklch(0.42 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></circle><circle cx="304.6" cy="320" r="11" fill="none" stroke="oklch(0.42 0.06 150)" stroke-width="0.5" stroke-dasharray="1.5 1.5" vector-effect="non-scaling-stroke"></circle><circle cx="304.6" cy="320" r="0.9" fill="oklch(0.32 0.05 150)"></circle></g><g><circle cx="305.9" cy="409.6" r="14.1" fill="url(#bhCanopy)" stroke="oklch(0.42 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></circle><circle cx="305.9" cy="409.6" r="11" fill="none" stroke="oklch(0.42 0.06 150)" stroke-width="0.5" stroke-dasharray="1.5 1.5" vector-effect="non-scaling-stroke"></circle><circle cx="305.9" cy="409.6" r="0.9" fill="oklch(0.32 0.05 150)"></circle></g><g><circle cx="304.6" cy="499.2" r="15.4" fill="url(#bhCanopy)" stroke="oklch(0.42 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></circle><circle cx="304.6" cy="499.2" r="12" fill="none" stroke="oklch(0.42 0.06 150)" stroke-width="0.5" stroke-dasharray="1.5 1.5" vector-effect="non-scaling-stroke"></circle><circle cx="304.6" cy="499.2" r="0.9" fill="oklch(0.32 0.05 150)"></circle></g><g><circle cx="271.4" cy="561.9" r="15.4" fill="url(#bhCanopy)" stroke="oklch(0.42 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></circle><circle cx="271.4" cy="561.9" r="12" fill="none" stroke="oklch(0.42 0.06 150)" stroke-width="0.5" stroke-dasharray="1.5 1.5" vector-effect="non-scaling-stroke"></circle><circle cx="271.4" cy="561.9" r="0.9" fill="oklch(0.32 0.05 150)"></circle></g><g><circle cx="143.4" cy="567" r="16.6" fill="url(#bhCanopy)" stroke="oklch(0.42 0.06 150)" stroke-width="0.8" vector-effect="non-scaling-stroke"></circle><circle cx="143.4" cy="567" r="13" fill="none" stroke="oklch(0.42 0.06 150)" stroke-width="0.5" stroke-dasharray="1.5 1.5" vector-effect="non-scaling-stroke"></circle><circle cx="143.4" cy="567" r="0.9" fill="oklch(0.32 0.05 150)"></circle></g><g transform="translate(302.1,579.8) rotate(-60)"><circle r="10.2" fill="oklch(0.965 0.012 95)" fill="none" stroke="oklch(0.25 0.03 245)" stroke-width="0.8" vector-effect="non-scaling-stroke"></circle><path d="M0 -10.2 L3.6 4.1 L0 1.5 L-3.6 4.1 Z" fill="oklch(0.25 0.03 245)"></path><text x="0" y="-13.3" text-anchor="middle" font-size="8.7" font-weight="600" fill="oklch(0.25 0.03 245)">N</text></g></g></sc-if>
+          </svg>
+          <sc-for list="{{ p2.labels }}" as="l">
+            <span style="position:absolute;left:{{ l.left }};top:{{ l.top }};transform:translate(-50%,-50%);max-width:{{ l.mw }};font-size:{{ l.fs }};font-weight:600;letter-spacing:0.05em;line-height:1.15;text-align:center;text-transform:uppercase;pointer-events:none;width:max-content;color:{{ l.color }}">{{ l.name }}<sc-if value="{{ l.showDims }}"><span style="display:block;font-weight:400;letter-spacing:0.02em;text-transform:none;font-size:0.85em;margin-top:0.2em;opacity:0.8;white-space:nowrap">{{ l.dims }}</span></sc-if></span>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted, oklch(0.42 0.02 245))">
+          <sc-if value="{{ p2Indoor }}" hint-placeholder-val="{{ true }}"><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;background:oklch(0.92 0.035 80);border:1.5px solid var(--ink, oklch(0.25 0.03 245))"></span>Bedroom</span><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;background:oklch(0.9 0.03 215);border:1.5px solid var(--ink, oklch(0.25 0.03 245))"></span>Living</span><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;background:oklch(0.97 0.004 85);border:1.5px solid var(--ink, oklch(0.25 0.03 245))"></span>Hall, bath, service</span></sc-if>
+          <sc-if value="{{ p2Grounds }}"><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;background:oklch(0.91 0.045 135);border:1.5px solid var(--ink, oklch(0.25 0.03 245))"></span>Lawn</span><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;background:oklch(0.6 0.075 150);border:1.5px solid var(--ink, oklch(0.25 0.03 245))"></span>Planting</span><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;background:oklch(0.92 0.025 65);border:1.5px solid var(--ink, oklch(0.25 0.03 245))"></span>Paving</span><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;background:oklch(0.94 0.014 80);border:1.5px solid var(--ink, oklch(0.25 0.03 245))"></span>Gravel</span><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;background:oklch(0.86 0.055 220);border:1.5px solid var(--ink, oklch(0.25 0.03 245))"></span>Water</span><span style="color:var(--muted, oklch(0.5 0.02 245))">Not to scale</span></sc-if>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <sc-for list="{{ chips }}" as="c" hint-placeholder-count="8">
+            <button onClick="{{ c.onClick }}" style="cursor:pointer;padding:6px 12px;font-size:13px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.fg }}">{{ c.name }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="flex:2 1 520px;min-width:0;max-width:100%;display:grid;gap:28px">
+        <div style="display:grid;gap:10px">
+          <div style="position:relative;aspect-ratio:3/2;overflow:hidden;background:oklch(0.9 0.012 85)">
+            <sc-if value="{{ ph.isImg }}" hint-placeholder-val="{{ false }}">
+              <img src="{{ ph.url }}" alt="{{ ph.cap }}" onClick="{{ openRoomLb }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in">
+            </sc-if>
+            <sc-if value="{{ ph.isPh }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,oklch(0.9 0.012 85) 0 12px,oklch(0.93 0.01 85) 12px 24px);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center">
+                <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted, oklch(0.45 0.02 245))">photo needed · {{ ph.label }}</span>
+              </div>
+            </sc-if>
+            <div style="position:absolute;left:0;right:0;bottom:0;padding:40px 16px 14px;background:linear-gradient(180deg,rgba(10,18,30,0),rgba(10,18,30,0.55));display:flex;justify-content:space-between;align-items:flex-end;gap:12px;color:#fff;pointer-events:none">
+              <span style="font-size:14px">{{ ph.cap }}</span>
+              <span style="font-size:12px;letter-spacing:0.1em">{{ ph.pos }}</span>
+            </div>
+            <button onClick="{{ phPrev }}" aria-label="Previous photo" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:999px;border:0;background:rgba(255,255,255,0.9);color:var(--ink, oklch(0.25 0.03 245));font-size:16px;cursor:pointer">←</button>
+            <button onClick="{{ phNext }}" aria-label="Next photo" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:999px;border:0;background:rgba(255,255,255,0.9);color:var(--ink, oklch(0.25 0.03 245));font-size:16px;cursor:pointer">→</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px">
+            <sc-for list="{{ phThumbs }}" as="t" hint-placeholder-count="4">
+              <button onClick="{{ t.onClick }}" aria-label="{{ t.cap }}" style="padding:0;border:0;aspect-ratio:4/3;cursor:pointer;overflow:hidden;outline:2px solid {{ t.ring }};outline-offset:2px;background:repeating-linear-gradient(135deg,oklch(0.9 0.012 85) 0 6px,oklch(0.93 0.01 85) 6px 12px);opacity:{{ t.op }}">
+                <sc-if value="{{ t.isImg }}"><img src="{{ t.url }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:grid;gap:10px;max-width:680px">
+          <span style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">{{ sel.floorLabel }}</span>
+          <h3 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(32px,3vw,44px);line-height:1.05">{{ sel.name }}</h3>
+          <span style="font-size:15px;font-weight:500">{{ sel.beds }}</span>
+          <span style="font-size:13px;color:var(--muted, oklch(0.45 0.02 245))">{{ sel.dimsLine }}</span>
+          <p style="margin:0;font-family:var(--serif, 'Libre Caslon Text',serif);font-size:17px;line-height:1.6;color:var(--muted, oklch(0.36 0.025 245));text-wrap:pretty">{{ sel.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="bedrooms" data-screen-label="Bedrooms" style="border-top:1px solid var(--line, oklch(0.9 0.01 85))">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4vw,48px);display:grid;gap:48px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+      <div style="display:grid;gap:16px;max-width:640px">
+        <span style="font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">Bedrooms</span>
+        <h2 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(34px,3.8vw,52px);line-height:1.08;text-wrap:balance">Ten rooms, each named for the coast.</h2>
+      </div>
+      <p style="margin:0;max-width:420px;font-size:16px;line-height:1.6;color:var(--muted, oklch(0.4 0.02 245))">Family wings, Jack and Jill rooms for the children, and cots or extra beds on request.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:12px">
+      <sc-for list="{{ rooms }}" as="room" hint-placeholder-count="10">
+        <article onClick="{{ room.onClick }}" style="cursor:pointer;background:var(--paper2, oklch(0.955 0.012 85));display:grid;align-content:start;transition:background 0.2s" style-hover="background:var(--paper2h, oklch(0.935 0.016 85))">
+          <div style="display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:3px;aspect-ratio:16/10;overflow:hidden">
+            <sc-for list="{{ room.thumbs }}" as="t">
+              <div style="grid-area:{{ t.area }};background:repeating-linear-gradient(135deg,oklch(0.9 0.012 85) 0 8px,oklch(0.93 0.01 85) 8px 16px);overflow:hidden;display:flex;align-items:center;justify-content:center">
+                <sc-if value="{{ t.isImg }}"><img src="{{ t.url }}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+                <sc-if value="{{ t.isPh }}"><span style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--muted, oklch(0.5 0.02 245));padding:6px;text-align:center">photo needed</span></sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div style="padding:24px 24px 28px;display:grid;gap:18px">
+          <div style="display:flex;align-items:flex-end;gap:12px;height:30px">
+            <sc-for list="{{ room.groups }}" as="g">
+              <sc-if value="{{ g.sep }}"><span style="align-self:stretch;border-left:2px dotted oklch(0.72 0.03 215)"></span></sc-if>
+              <div style="display:flex;gap:5px;align-items:flex-end">
+                <sc-for list="{{ g.beds }}" as="b">
+                  <div style="display:grid;gap:0">
+                    <div style="width:{{ b.w }}px;height:20px;border:2px solid {{ g.color }};border-bottom-width:3px;border-radius:5px 5px 1px 1px;padding:3px 3px 0;display:flex;gap:3px;justify-content:center;box-sizing:border-box">
+                      <span style="flex:1;max-width:12px;height:5px;border:1.5px solid {{ g.color }};border-radius:2px"></span>
+                      <sc-if value="{{ b.two }}"><span style="flex:1;max-width:12px;height:5px;border:1.5px solid {{ g.color }};border-radius:2px"></span></sc-if>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:0 1px"><span style="width:2px;height:4px;background:{{ g.color }}"></span><span style="width:2px;height:4px;background:{{ g.color }}"></span></div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:grid;gap:6px">
+            <div style="display:flex;align-items:baseline;gap:10px">
+              <h3 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:26px">{{ room.name }}</h3>
+              <span style="font-size:12px;color:var(--muted, oklch(0.5 0.02 245))">{{ room.no }}</span>
+            </div>
+            <p style="margin:0;font-size:15px;line-height:1.5;text-wrap:pretty">{{ room.beds }}</p>
+            <p style="margin:0;font-size:13px;line-height:1.5;color:var(--muted, oklch(0.45 0.02 245))">{{ room.meta }}</p>
+          </div>
+          <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">{{ room.count }} · Explore the room →</span>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="gallery" data-screen-label="Gallery" style="padding:clamp(72px,9vw,128px) 0;border-top:1px solid var(--line, oklch(0.9 0.01 85))">
+  <div style="max-width:1400px;margin:0 auto;padding:0 clamp(20px,4vw,48px);display:grid;gap:24px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <sc-for list="{{ galCats }}" as="gc" hint-placeholder-count="6">
+          <button onClick="{{ gc.onClick }}" style="cursor:pointer;padding:7px 14px;font-size:13px;border-radius:999px;border:1px solid {{ gc.border }};background:{{ gc.bg }};color:{{ gc.fg }}">{{ gc.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px;letter-spacing:0.12em;text-transform:uppercase">
+        <a href="#floorplan" style="border-bottom:1px solid currentColor;padding-bottom:4px">Floorplan</a>
+        <a href="https://www.youtube.com/watch?v=QsnGQvgE6lA" style="border-bottom:1px solid currentColor;padding-bottom:4px">Watch the film</a>
+      </div>
+    </div>
+    <div style="columns:3 300px;column-gap:12px">
+      <sc-for list="{{ gal }}" as="p" hint-placeholder-count="12">
+        <button onClick="{{ p.open }}" aria-label="{{ p.cap }}" style="display:block;width:100%;padding:0;border:0;margin:0 0 12px;break-inside:avoid;cursor:zoom-in;background:oklch(0.9 0.012 85);overflow:hidden">
+          <img src="{{ p.thumb }}" alt="{{ p.cap }}" loading="lazy" style="display:block;width:100%;height:auto;transition:transform 0.5s ease" style-hover="transform:scale(1.03)">
+        </button>
+      </sc-for>
+    </div>
+    <sc-if value="{{ galMore }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ galShowAll }}" style="justify-self:center;cursor:pointer;padding:14px 28px;border:1px solid var(--ink, oklch(0.25 0.03 245));background:transparent;color:var(--ink, oklch(0.25 0.03 245));font-size:13px;letter-spacing:0.14em;text-transform:uppercase" style-hover="background:var(--btn, var(--ink, oklch(0.25 0.03 245)));color:var(--btnFg, #fff)">Show all {{ galTotal }} photos</button>
+    </sc-if>
+  </div>
+  <sc-if value="{{ lbOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ lbClose }}" style="position:fixed;inset:0;z-index:50;background:rgba(10,18,30,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px">
+      <img onClick="{{ lbStop }}" src="{{ lb.full }}" alt="{{ lb.cap }}" style="max-width:min(92vw,1600px);max-height:80vh;object-fit:contain;display:block;background:rgba(255,255,255,0.04)">
+      <div onClick="{{ lbStop }}" style="display:flex;gap:20px;align-items:baseline;color:#fff">
+        <span style="font-family:var(--serif, 'Libre Caslon Text',serif);font-size:18px">{{ lb.cap }}</span>
+        <span style="font-size:13px;color:rgba(255,255,255,0.65)">{{ lb.pos }}</span>
+      </div>
+      <button onClick="{{ lbPrev }}" aria-label="Previous" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:999px;border:1px solid rgba(255,255,255,0.4);background:transparent;color:#fff;font-size:20px;cursor:pointer">←</button>
+      <button onClick="{{ lbNext }}" aria-label="Next" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:999px;border:1px solid rgba(255,255,255,0.4);background:transparent;color:#fff;font-size:20px;cursor:pointer">→</button>
+      <button onClick="{{ lbClose }}" aria-label="Close" style="position:absolute;right:16px;top:16px;width:44px;height:44px;border:0;background:transparent;color:#fff;font-size:26px;cursor:pointer">×</button>
+    </div>
+  </sc-if>
+</section>
+
+<section id="seasons" data-screen-label="Seasons" style="background:var(--deep, var(--ink, oklch(0.25 0.03 245)));color:oklch(0.96 0.008 85)">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4vw,48px);display:grid;gap:56px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+      <div style="display:grid;gap:16px;max-width:720px">
+        <span style="font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:oklch(0.8 0.05 215)">Two seasons</span>
+        <sc-if value="{{ isSummer }}" hint-placeholder-val="{{ true }}">
+          <h2 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(34px,3.8vw,52px);line-height:1.08;text-wrap:balance">Summer: the pool, the terrace and two miles of sand.</h2>
+        </sc-if>
+        <sc-if value="{{ isWinter }}" hint-placeholder-val="{{ false }}">
+          <h2 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(34px,3.8vw,52px);line-height:1.08;text-wrap:balance">Winter: the log fire, the hot tub and a table for twenty.</h2>
+        </sc-if>
+      </div>
+      <div style="display:flex;gap:2px;padding:3px;border-radius:999px;border:1px solid oklch(0.45 0.03 240)">
+        <button onClick="{{ setSummer }}" style="border:0;cursor:pointer;padding:8px 18px;border-radius:999px;font-size:13px;background:{{ summerBgDark }};color:{{ summerFgDark }}">Summer</button>
+        <button onClick="{{ setWinter }}" style="border:0;cursor:pointer;padding:8px 18px;border-radius:999px;font-size:13px;background:{{ winterBgDark }};color:{{ winterFgDark }}">Winter</button>
+      </div>
+    </div>
+
+    <sc-if value="{{ isSummer }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(32px,5vw,72px);align-items:start">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <img src="https://scrumpy.imgix.net/assets/efd73a5a18a40e1b5e3bf6f695cf9d51c8451682/Edge_SUP_session_Imperial_Bay-21.original.jpg?ixlib=rails-2.1.3&amp;auto=format%2Ccompress&amp;dpr=auto&amp;fit=max&amp;fm=jpg&amp;w=1600&amp;widths=%5B480%2C%201024%2C%201600%5D&amp;s=875cb3e2fec113c41d0de9f25a0bba61" alt="Paddleboarding on the Exe" style="grid-column:1 / -1;width:100%;aspect-ratio:16/9;object-fit:cover;display:block">
+          <img src="https://scrumpy.imgix.net/assets/43fc93e98debbd599cd3c74e775e076bb855a311/pool.content.jpeg?ixlib=rails-2.1.3&amp;auto=format%2Ccompress&amp;lazy=true&amp;dpr=auto&amp;ch=width&amp;fm=jpg&amp;style=aspect-ratio%3A%20%20%2F%20&amp;s=9503c728b5ac432b5d53f58dedb15b90" alt="Pool" style="width:100%;aspect-ratio:1;object-fit:cover;display:block">
+          <img src="https://scrumpy.imgix.net/assets/81df6152a8a4f2aa575da117eb0e4ae1dcce01d6/Beach_House_April_22_Q2_030.original.jpg?ixlib=rails-2.1.3&amp;auto=format%2Ccompress&amp;dpr=auto&amp;fit=max&amp;fm=jpg&amp;w=1600&amp;widths=%5B480%2C%201024%2C%201600%5D&amp;s=75ca8265f680f87eba3dcbffe6c8e896" alt="Garden and terrace" style="width:100%;aspect-ratio:1;object-fit:cover;display:block">
+        </div>
+        <div style="display:grid;gap:32px">
+          <p style="margin:0;font-family:var(--serif, 'Libre Caslon Text',serif);font-size:19px;line-height:1.65;text-wrap:pretty">The pool is heated from April to October. Eat on the terrace with the pizza oven and Weber BBQ, then head down to the beach for rock pooling, sea swimming, paddleboarding or kitesurfing. Outdoor hot showers are waiting when you come back up.</p>
+          <ul style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;font-size:15px;border-top:1px solid oklch(0.4 0.03 240);padding-top:24px">
+            <li>Heated pool, Apr–Oct</li><li>Pizza oven and BBQ</li><li>Table tennis</li><li>Outdoor hot showers</li><li>Lifeguarded beach</li><li>Watersports lessons</li>
+          </ul>
+          <blockquote style="margin:0;display:grid;gap:12px;border-left:0;padding:0">
+            <p style="margin:0;font-family:var(--serif, 'Libre Caslon Text',serif);font-style:italic;font-size:21px;line-height:1.5">"We were lucky to stay during some fine summer weather so we were able to take advantage of the beautiful mature garden with hot tub, heated pool, fire pit, Weber BBQ, brick pizza oven and table tennis."</p>
+            <footer style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:oklch(0.8 0.05 215)">Jerry, family of 12 · August 2022</footer>
+          </blockquote>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isWinter }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(32px,5vw,72px);align-items:start">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <img src="https://scrumpy.imgix.net/assets/f31b77504da0cdd131ea775be21b647037ebe3ee/Beach_House_Lounge_Pano.original.jpg?ixlib=rails-2.1.3&amp;auto=format%2Ccompress%2Cenhance&amp;dpr=auto&amp;fit=max&amp;fm=jpg&amp;w=1600&amp;widths=%5B480%2C%201024%2C%201600%5D&amp;s=cb8f663c5d195f8a39761040da53a130" alt="The lounge" style="grid-column:1 / -1;width:100%;aspect-ratio:16/9;object-fit:cover;display:block">
+          <img src="https://scrumpy.imgix.net/assets/088327f27e171fa9b929c521f6d89795eac249ef/3.content.png?ixlib=rails-2.1.3&amp;auto=format%2Ccompress&amp;lazy=true&amp;dpr=auto&amp;ch=width&amp;fm=jpg&amp;style=aspect-ratio%3A%20%20%2F%20&amp;s=ab5e9382c84d6dc7fb2ba813fd04a41f" alt="Hot tub" style="width:100%;aspect-ratio:1;object-fit:cover;display:block">
+          <img src="https://scrumpy.imgix.net/assets/f1a8ac31a910063da16677df60c2f9d3733b1537/Beach_House_Kitchen_2_Pano.original.jpg?ixlib=rails-2.1.3&amp;auto=format%2Ccompress%2Cenhance&amp;dpr=auto&amp;fit=max&amp;fm=jpg&amp;w=1600&amp;widths=%5B480%2C%201024%2C%201600%5D&amp;s=a98fcbf4ff14bee97f518619eab457f6" alt="Kitchen" style="width:100%;aspect-ratio:1;object-fit:cover;display:block">
+        </div>
+        <div style="display:grid;gap:32px">
+          <p style="margin:0;font-family:var(--serif, 'Libre Caslon Text',serif);font-size:19px;line-height:1.65;text-wrap:pretty">The hot tub and sauna run all year. Inside there is a log fire, a dining room that seats twenty, a games and TV room, and a kitchen with two dishwashers. Walk the beach at low tide round to Sandy Bay, then come home to the fire.</p>
+          <ul style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;font-size:15px;border-top:1px solid oklch(0.4 0.03 240);padding-top:24px">
+            <li>Log fire</li><li>Hot tub, all year</li><li>Sauna</li><li>Dining for 20</li><li>Games and TV room</li><li>Coastal walks</li>
+          </ul>
+          <blockquote style="margin:0;display:grid;gap:12px;padding:0">
+            <p style="margin:0;font-family:var(--serif, 'Libre Caslon Text',serif);font-style:italic;font-size:21px;line-height:1.5">"We have stayed at the Beach House three years running to celebrate New Year with friends aged from 2yrs - 86 years… loved lying in bed listening to the sea."</p>
+            <footer style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:oklch(0.8 0.05 215)">Maggie · January 2020</footer>
+          </blockquote>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</section>
+
+<section data-screen-label="Amenities" style="max-width:1400px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4vw,48px);display:grid;gap:48px">
+  <h2 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(30px,3vw,40px)">What's included</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:40px 32px">
+    <div style="display:grid;gap:14px;align-content:start">
+      <h3 style="margin:0;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">Outdoors</h3>
+      <ul style="margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:15px;line-height:1.4"><li>Seasonally heated pool</li><li>Large hot tub</li><li>Sauna</li><li>Pizza oven and BBQ</li><li>Fire pit</li><li>Table tennis</li><li>Outdoor hot showers</li></ul>
+    </div>
+    <div style="display:grid;gap:14px;align-content:start">
+      <h3 style="margin:0;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">Living</h3>
+      <ul style="margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:15px;line-height:1.4"><li>Lounge with sea views</li><li>Dining room seating 20</li><li>Games and TV room</li><li>Log fire</li><li>Wifi</li></ul>
+    </div>
+    <div style="display:grid;gap:14px;align-content:start">
+      <h3 style="margin:0;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">Kitchen</h3>
+      <ul style="margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:15px;line-height:1.4"><li>Large modern kitchen</li><li>Two dishwashers</li><li>Plenty of fridge space</li><li>Washing and drying</li><li>Food deliveries to the door</li></ul>
+    </div>
+    <div style="display:grid;gap:14px;align-content:start">
+      <h3 style="margin:0;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">Families</h3>
+      <ul style="margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:15px;line-height:1.4"><li>Cots and extra beds</li><li>Family wings</li><li>Dog friendly</li><li>Sole use of house and grounds</li><li>Self check-in</li></ul>
+    </div>
+  </div>
+</section>
+
+<section id="guests" data-screen-label="Guests" style="border-top:1px solid var(--line, oklch(0.9 0.01 85));background:var(--paper2, oklch(0.955 0.012 85))">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4vw,48px);display:grid;gap:56px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+      <div style="display:grid;gap:16px;max-width:720px">
+        <span style="font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">Reunions, birthdays, Christmas</span>
+        <h2 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(34px,3.8vw,52px);line-height:1.08;text-wrap:balance">From our guest book</h2>
+      </div>
+      <sc-if value="{{ showRating }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;gap:32px">
+          <div style="display:grid;gap:2px"><span style="font-family:var(--display, 'Libre Caslon Display',serif);font-size:36px">4.96</span><span style="font-size:13px;color:var(--muted, oklch(0.45 0.02 245))">Airbnb, 25 reviews</span></div>
+          <div style="display:grid;gap:2px"><span style="font-family:var(--display, 'Libre Caslon Display',serif);font-size:36px">5.0</span><span style="font-size:13px;color:var(--muted, oklch(0.45 0.02 245))">Location</span></div>
+        </div>
+      </sc-if>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px">
+      <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="3">
+        <figure style="margin:0;padding:32px;background:var(--paper, oklch(0.985 0.005 85));display:grid;gap:24px;align-content:space-between">
+          <blockquote style="margin:0;font-family:var(--serif, 'Libre Caslon Text',serif);font-size:18px;line-height:1.6;text-wrap:pretty">"{{ r.quote }}"</blockquote>
+          <figcaption style="display:grid;gap:4px;font-size:13px">
+            <span style="font-weight:600">{{ r.who }}</span>
+            <span style="color:var(--muted, oklch(0.45 0.02 245))">{{ r.meta }}</span>
+          </figcaption>
+        </figure>
+      </sc-for>
+    </div>
+    <a href="https://www.thebeachhouseexmouth.co.uk/properties/the-beach-house-exmouth/content/reviews" style="justify-self:start;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid currentColor;padding-bottom:4px">Read all reviews</a>
+  </div>
+</section>
+
+<section id="exmouth" data-screen-label="Exmouth" style="max-width:1400px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(40px,6vw,96px);align-items:center">
+  <img src="https://scrumpy.imgix.net/assets/c007c4d9d74a0be3da748809ebfb9a493776a85b/2.content.png?ixlib=rails-2.1.3&amp;auto=format%2Ccompress&amp;lazy=true&amp;dpr=auto&amp;ch=width&amp;fm=jpg&amp;style=aspect-ratio%3A%20%20%2F%20&amp;s=4f4e100a002cc29f28a50f4b7f009163" alt="Paddleboarding with Edge Watersports" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:oklch(0.9 0.012 85)">
+  <div style="display:grid;gap:24px">
+    <span style="font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">Exmouth and your hosts</span>
+    <h2 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(34px,3.8vw,52px);line-height:1.08;text-wrap:balance">Like having your own beach at the bottom of the garden.</h2>
+    <p style="margin:0;font-family:var(--serif, 'Libre Caslon Text',serif);font-size:19px;line-height:1.65;color:var(--muted, oklch(0.36 0.025 245));text-wrap:pretty">Exmouth beach is two miles of golden sand, shallow water and rock pools, with a dog-friendly section all year. The town is a 20 minute walk along the seafront; Dartmoor is 40 minutes by car. Owners Steph and Eric Bridge run Edge Watersports, 100 metres along the beach, and can arrange lessons and hire for every level.</p>
+    <div style="display:flex;gap:28px;flex-wrap:wrap;font-size:13px;letter-spacing:0.12em;text-transform:uppercase">
+      <a href="https://www.thebeachhouseexmouth.co.uk/properties/the-beach-house-exmouth/links" style="border-bottom:1px solid currentColor;padding-bottom:4px">Things to do</a>
+      <a href="https://www.edgewatersports.com/" style="border-bottom:1px solid currentColor;padding-bottom:4px">Edge Watersports</a>
+    </div>
+  </div>
+</section>
+
+<section id="location" data-screen-label="Location" style="border-top:1px solid var(--line, oklch(0.9 0.01 85))">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4vw,48px);display:grid;gap:32px">
+    <div style="display:grid;gap:16px;max-width:640px">
+      <span style="font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">Location</span>
+      <h2 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(34px,3.8vw,52px);line-height:1.08;text-wrap:balance">Where you'll be.</h2>
+    </div>
+    <iframe src="location-maps.html" title="Maps of the Beach House and the surrounding area" loading="lazy" style="width:100%;height:{{ mapsH }}px;border:0;display:block"></iframe>
+  </div>
+</section>
+
+<section id="availability" data-screen-label="Availability" style="border-top:1px solid var(--line, oklch(0.9 0.01 85))">
+  <div style="max-width:1400px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4vw,48px);display:grid;gap:40px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+      <div style="display:grid;gap:16px;max-width:640px">
+        <span style="font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">Availability</span>
+        <h2 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(34px,3.8vw,52px);line-height:1.08;text-wrap:balance">Pick your dates.</h2>
+        <p style="margin:0;font-size:16px;line-height:1.6;color:var(--muted, oklch(0.4 0.02 245))">Choose an arrival day, then a departure day. Minimum three nights; full weeks in school holidays.</p>
+      </div>
+      <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+        <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted, oklch(0.4 0.02 245))">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:14px;background:var(--accent, oklch(0.48 0.06 215))"></span>Arrival day</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:14px;background:var(--avail, oklch(0.9 0.03 215))"></span>Available</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:14px;background:oklch(0.9 0.006 245)"></span>Booked</span>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button onClick="{{ calPrev }}" aria-label="Earlier months" style="cursor:pointer;width:40px;height:40px;border:1px solid var(--line, oklch(0.84 0.012 85));background:transparent;color:var(--ink, oklch(0.25 0.03 245));font-size:16px;opacity:{{ calPrevOp }}">←</button>
+          <button onClick="{{ calNext }}" aria-label="Later months" style="cursor:pointer;width:40px;height:40px;border:1px solid var(--line, oklch(0.84 0.012 85));background:transparent;color:var(--ink, oklch(0.25 0.03 245));font-size:16px;opacity:{{ calNextOp }}">→</button>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:32px 28px">
+      <sc-for list="{{ months }}" as="mo" hint-placeholder-count="4">
+        <div style="display:grid;gap:12px;align-content:start">
+          <h3 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:24px">{{ mo.title }}</h3>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px">
+            <sc-for list="{{ weekdays }}" as="wd"><span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;text-align:center;color:var(--muted, oklch(0.5 0.02 245));padding-bottom:4px">{{ wd }}</span></sc-for>
+            <sc-for list="{{ mo.cells }}" as="c">
+              <button onClick="{{ c.onClick }}" style="aspect-ratio:1;border:0;padding:0;font-size:13px;cursor:{{ c.cursor }};background:{{ c.bg }};color:{{ c.fg }};box-shadow:{{ c.ring }};text-decoration:{{ c.deco }}">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line, oklch(0.88 0.012 85));padding-top:24px">
+      <div style="display:grid;gap:4px">
+        <span style="font-family:var(--display, 'Libre Caslon Display',serif);font-size:24px">{{ calSummary }}</span>
+        <span style="font-size:13px;color:var(--muted, oklch(0.45 0.02 245))">Check-in 16:00 · Check-out 09:30</span>
+      </div>
+      <sc-if value="{{ calReady }}" hint-placeholder-val="{{ false }}">
+        <a href="https://www.thebeachhouseexmouth.co.uk/enquiries/new" style="padding:15px 28px;background:var(--btn, var(--ink, oklch(0.25 0.03 245)));color:var(--btnFg, #fff);font-size:13px;letter-spacing:0.14em;text-transform:uppercase" style-hover="background:var(--btnHover, oklch(0.34 0.04 230));color:var(--btnFg, #fff)">Request these dates</a>
+      </sc-if>
+    </div>
+  </div>
+</section>
+
+<section id="book" data-screen-label="Book" style="padding:0 clamp(12px,1.6vw,20px) clamp(12px,1.6vw,20px)">
+  <div style="position:relative;overflow:hidden;background:var(--deep, oklch(0.25 0.03 245));color:#fff">
+    <img src="https://scrumpy.imgix.net/assets/834b6524565aef67c3d03b2f2ffd61b9a82904f4/2F6EE722-071C-4441-9E05-49F9A857BA98.original.jpeg?ixlib=rails-2.1.3&amp;auto=format%2Ccompress&amp;dpr=auto&amp;fit=max&amp;fm=jpg&amp;rect=0%2C538%2C2726%2C936&amp;w=1600&amp;widths=%5B480%2C%201024%2C%201600%5D&amp;s=8a9fceaf40a653628259aaa3d4fd6e02" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.35">
+    <div style="position:relative;max-width:1100px;margin:0 auto;padding:clamp(72px,10vw,140px) clamp(20px,4vw,48px);display:grid;gap:32px;justify-items:center;text-align:center">
+      <h2 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(38px,5vw,68px);line-height:1.05;text-wrap:balance">Bring everyone.</h2>
+      <p style="margin:0;max-width:620px;font-size:17px;line-height:1.6">Short breaks of three nights or more in low and mid season, full weeks during school holidays. Mid-week breaks cost less, and corporate bookings are welcome.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+        <a href="#availability" style="padding:16px 28px;background:var(--paper, oklch(0.975 0.008 85));color:var(--ink, oklch(0.25 0.03 245));font-size:13px;letter-spacing:0.14em;text-transform:uppercase" style-hover="background:#fff;color:var(--ink, oklch(0.25 0.03 245))">Check availability</a>
+        <a href="https://www.thebeachhouseexmouth.co.uk/enquiries/new" style="padding:15px 28px;border:1px solid rgba(255,255,255,0.7);color:#fff;font-size:13px;letter-spacing:0.14em;text-transform:uppercase" style-hover="background:rgba(255,255,255,0.12);color:#fff">Make an enquiry</a>
+      </div>
+      <a href="tel:07887882866" style="color:#fff;font-size:15px">Or call Steph on 07887 882866</a>
+    </div>
+  </div>
+</section>
+
+<footer style="max-width:1400px;margin:0 auto;padding:40px clamp(20px,4vw,48px) 56px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:14px;color:var(--muted, oklch(0.42 0.02 245))">
+  <span style="font-family:var(--display, 'Libre Caslon Display',serif);font-size:20px;color:var(--ink, oklch(0.25 0.03 245))">The Beach House, Exmouth</span>
+  <div style="display:flex;gap:24px;flex-wrap:wrap">
+    <a href="https://www.instagram.com/thebeachhouseexmouth">Instagram</a>
+    <a href="https://www.facebook.com/TheBeachHouseExmouth/">Facebook</a>
+    <a href="https://www.chaletpolaris.com/">Chalet Polaris, Vaujany</a>
+    <a href="https://www.thebeachhouseexmouth.co.uk/terms">Terms</a>
+  </div>
+</footer>
+
+</div>
+<div style="position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:40;display:flex;align-items:center;gap:4px;padding:4px;border-radius:999px;background:rgba(255,255,255,0.92);box-shadow:0 4px 18px rgba(20,30,45,0.18);font-family:'Hanken Grotesk',sans-serif;backdrop-filter:blur(8px)">
+  <button onClick="{{ toggleThemeUi }}" style="border:0;cursor:pointer;background:transparent;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#555;padding:6px 8px 6px 10px">{{ themeToggleLabel }}</button>
+  <sc-if value="{{ themeUiOpen }}"><sc-for list="{{ themeOpts }}" as="o" hint-placeholder-count="6">
+    <button onClick="{{ o.onClick }}" title="{{ o.name }}" style="border:0;cursor:pointer;padding:7px 13px;border-radius:999px;font-size:13px;background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button>
+  </sc-for></sc-if>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultSeason&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;summer&quot;,&quot;winter&quot;],&quot;default&quot;:&quot;summer&quot;,&quot;tsType&quot;:&quot;'summer'|'winter'&quot;},&quot;showRating&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const IX = 'https://scrumpy.imgix.net/assets/';
+const Q = '?ixlib=rails-2.1.3&auto=format%2Ccompress%2Cenhance&dpr=auto&fit=max&fm=jpg&w=480&widths=%5B480%2C%201024%2C%201600%5D&s=';
+const GEO = [
+  ['store','g','service','Store','548,78 645,78 645,163 548,163'],
+  ['lobby','g','service','','645,78 697,78 697,190 645,190'],
+  ['kitchen','g','living','Kitchen','697,78 840,78 840,355 650,355 650,190 697,190','7.20 × 5.09m'],
+  ['office','g','service','Office','548,165 645,165 645,355 548,355','3.61 × 2.50m'],
+  ['stairsG','g','service','Stairs','548,355 700,355 700,422 635,422 635,515 595,515 548,470'],
+  ['linen','g','service','Linen','700,355 840,355 840,422 700,422','1.71 × 3.60m'],
+  ['dining','g','living','Dining Room','635,425 838,425 858,448 858,585 838,605 668,605 635,600','4.80 × 5.39m'],
+  ['hall','g','service','Entrance Hall','440,500 490,455 525,490 548,470 595,515 635,515 635,605 568,710 555,660 485,660 485,610 455,578'],
+  ['corridor','g','service','Corridor','290,575 455,578 485,610 485,660 290,660'],
+  ['wc','g','bath','WC','162,575 290,575 290,660 162,660'],
+  ['tv','g','living','TV Room','162,660 345,660 345,870 162,870','5.49 × 4.80m'],
+  ['sitting','g','living','Sitting Room','345,660 555,660 568,710 568,870 548,885 410,885 400,810 345,810','5.49 × 5.90m'],
+  ['shelley','f','bed','Shelley Beach','570,65 673,65 673,240 570,240','4.60 × 2.69m'],
+  ['shelleyEn','f','bath','','570,240 673,240 673,325 570,325'],
+  ['landingN','f','service','Landing','570,325 673,325 673,65 725,65 725,400 678,400 678,488 628,500 598,470 570,440'],
+  ['checkstone','f','bed','Checkstone','725,65 862,65 862,195 725,195','3.40 × 3.50m'],
+  ['cocklesands','f','bed','Cocklesands','725,195 862,195 862,348 725,348','4.00 × 3.50m'],
+  ['cockleEn','f','bath','','725,348 862,348 862,400 725,400'],
+  ['spinEn','f','bath','','795,400 862,400 862,490 795,490'],
+  ['spinnakers','f','bed','Spinnakers','678,400 795,400 795,490 862,490 862,595 705,595 650,515 678,490','5.14 × 6.31m'],
+  ['kingslake','f','bed','Kings Lake','605,512 700,598 592,712 500,618','4.01 × 3.10m'],
+  ['landingM','f','service','Landing','448,570 500,530 500,450 540,430 565,475 598,470 628,500 605,512 500,618'],
+  ['landingW','f','service','Landing','330,565 448,570 500,618 440,678 380,678 380,715 330,715'],
+  ['orcombe','f','bed','Orcombe','245,565 330,565 330,715 245,715','3.90 × 3.90m'],
+  ['orcombeEn','f','bath','','185,565 245,565 245,715 185,715'],
+  ['shaggles','f','bed','Shaggles','185,715 380,715 380,790 300,790 300,860 185,860','3.78 × 5.22m'],
+  ['shagglesEn','f','bath','','300,790 380,790 380,860 300,860'],
+  ['pebbleEn','f','bath','','380,678 440,678 440,790 380,790'],
+  ['pebblebed','f','bed','Pebblebed','440,678 500,618 592,712 585,860 380,860 380,790 440,790','6.27 × 5.48m'],
+  ['en11','s','bath','','400,300 490,215 555,285 490,350'],
+  ['stairsS','s','service','Stairs','330,370 400,300 490,350 462,440 400,440'],
+  ['en12','s','bath','','235,470 330,370 400,440 300,535'],
+  ['ottercove','s','bed','Otter Cove','555,285 685,285 685,500 598,575 462,440 490,350','5.53 × 5.26m'],
+  ['sandybay','s','bed','Sandy Bay','300,535 400,440 462,440 598,575 535,648 300,648','5.53 × 5.26m'],
+  ['road','o','road','Foxholes Hill','0,0 25,0 25,929 0,929'],
+  ['parking','o','hard','Parking','30,38 354,38 354,188 314,229 208,229 208,344 132,344 132,500 30,500'],
+  ['hs_store','o','house','','355,40 392,40 392,72 355,72'],
+  ['hs_lobby','o','house','','392,40 411,40 411,82 392,82'],
+  ['hs_kitchen','o','house','The house','411,40 466,40 466,145 394,145 394,82 411,82'],
+  ['hs_office','o','house','','355,73 392,73 392,145 355,145'],
+  ['hs_stairsG','o','house','','355,145 412,145 412,171 388,171 388,206 372,206 355,189'],
+  ['hs_linen','o','house','','412,145 466,145 466,171 412,171'],
+  ['hs_dining','o','house','','388,172 465,172 472,181 472,233 465,240 400,240 388,238'],
+  ['hs_hall','o','house','','314,200 333,183 346,196 355,189 372,206 388,206 388,240 362,280 357,261 331,261 331,242 319,230'],
+  ['hs_corridor','o','house','','257,229 319,230 331,242 331,261 257,261'],
+  ['hs_wc','o','house','','208,229 257,229 257,261 208,261'],
+  ['hs_tv','o','house','','208,261 278,261 278,341 208,341'],
+  ['hs_sitting','o','house','','278,261 357,261 362,280 362,341 355,347 302,347 298,318 278,318'],
+  ['sauna','o','feature','Sauna','156,344 191,344 191,434 156,434'],
+  ['patio','o','deck','Terrace','192,352 412,352 412,426 192,426'],
+  ['grill','o','feature','Grill','370,312 472,312 472,350 370,350'],
+  ['diningOut','o','feature','Outdoor dining','370,252 472,252 472,308 370,308'],
+  ['terraceE','o','deck','','472,240 492,240 492,368 472,368'],
+  ['hottub','o','water','Hot tub','412,368 472,368 472,426 412,426'],
+  ['lawnL','o','lawn','','212,426 324,426 324,616 290,616 290,808 212,808'],
+  ['path','o','deck','','324,426 344,426 344,616 324,616'],
+  ['lawnR','o','lawn','','344,426 456,426 456,808 374,808 374,616 344,616'],
+  ['pool','o','water','Pool','290,616 374,616 374,852 290,852'],
+  ['showers','o','feature','Showers','158,716 194,716 194,804 158,804'],
+  ['sundeck','o','deck','','256,852 408,852 384,900 280,900']
+];
+const buildPlan = base => GEO.map(([id, f, k, name, pts, dims]) => {
+  const src = base.find(b => b.id === id) || {};
+  const sc = 0.64, ox = f === 's' ? 140 : 0, oy = f === 's' ? 160 : 0;
+  const p = pts.split(' ').map(s => s.split(',').map(Number)).map(([x, y]) => Math.round((x + ox) * sc) + ',' + Math.round((y + oy) * sc)).join(' ');
+  return { ...src, id, f, k, name, pts: p, dims };
+});
+const PLAN0 = [
+  { id:'kitchen', f:'g', k:'living', name:'Kitchen', pts:'300,35 385,35 385,165 300,165', beds:'Group catering kitchen', desc:'A well equipped kitchen with two electric ovens, gas 6 ring hob, twin dishwashers, two large fridges and a vast selection of pans, crockery and kitchen equipment for group catering. A separate utility room with freezer, large second sink, washing machines and storage.', img: IX+'1c11ae31a3516778c9973a2796aaaf244c5e25c6/Beach_House_2_124-HDR.original.jpg'+Q+'6ccf3d74a3087fcd349203b27ff1f2ab' },
+  { id:'dining', f:'g', k:'living', name:'Dining Room', pts:'290,200 385,200 400,218 400,255 385,275 305,275 290,265', beds:'Seats 20, or about 30 at two tables', desc:'A great place to dine, with seating for 20 around a central table or up to about 30 at two tables.', img: IX+'b576fde8184ed1ba4043e557704f58fe476ed3b3/dinning_room.original.jpg'+Q+'f09051acb3402393bf6facae42dfc079' },
+  { id:'sitting', f:'g', k:'living', name:'Sitting Room', pts:'160,305 255,305 262,395 245,410 200,410 185,395 160,395', beds:'Sea views, wood burning stove', desc:'An incredibly spacious room with a huge, breathtaking view over the sea and the rolling Devon hills as the backdrop. Large sofas for families to relax, a large wood burning stove and TV.', img: IX+'5a32bccb49cdfec68354cfe06b0eb7899b0b2323/Beach_House_April_22_078-HDR.original.jpg'+Q+'095f243c9d89005b329929430119e3dc' },
+  { id:'tv', f:'g', k:'living', name:'TV Room', pts:'75,305 160,305 160,400 75,400', beds:'Opens onto the garden', desc:'Large TV and relaxation room with plenty of sofas, games and a view over the garden towards the sea. Access to the garden makes this an ideal room for children to have their own space.', img: IX+'17bf575120b28160c7992ca71b3298df2ac9ecfb/Beach_House_April_22_Q2_015.original.jpg'+Q+'e343e4ca6f680eb8023d9eb603b64bec' },
+  { id:'hall', f:'g', k:'service', name:'Hall', pts:'205,215 250,195 290,200 290,265 255,305 225,300 225,285 205,245' },
+  { id:'corridor', f:'g', k:'service', name:'', pts:'135,282 225,285 225,305 135,305' },
+  { id:'wc', f:'g', k:'service', name:'WC', pts:'75,265 135,265 135,305 75,305' },
+  { id:'office', f:'g', k:'service', name:'Office', pts:'250,95 300,95 300,170 250,170' },
+  { id:'store', f:'g', k:'service', name:'Store', pts:'250,35 300,35 300,75 250,75' },
+  { id:'utility', f:'g', k:'service', name:'', pts:'250,75 300,75 300,95 250,95' },
+  { id:'linen', f:'g', k:'service', name:'Linen', pts:'320,165 385,165 385,190 320,190' },
+
+  { id:'shelley', f:'f', k:'bed', name:'Shelley Beach', pts:'260,40 330,40 330,105 260,105', beds:'Double · ensuite shower', desc:'In the East wing. A good size double room with a 4ft 6in double bed and a lovely ensuite with walk-in shower. No sea view.', img: IX+'5ae724c8521c2d3c3adacc089e09b58b2e5ebd31/beachhouse-7311.original.jpg'+Q+'d083184caf69e0c66cd978e1693d3504' },
+  { id:'bath1', f:'f', k:'service', name:'', pts:'260,105 330,105 330,150 260,150' },
+  { id:'checkstone', f:'f', k:'bed', name:'Checkstone', pts:'330,40 395,40 395,85 330,85', beds:'Twin or super king', desc:'In the East wing, a small twin room. The 3ft single beds can be pushed together to form a super king. No ensuite and no sea view.', img: IX+'4c03c570eb607458dc27e2efaada902f1622846e/IMG_6800.original.jpeg'+Q+'5b0f94792821ab74e9c3fd661d046dde' },
+  { id:'cocklesands', f:'f', k:'bed', name:'Cocklesands', pts:'330,85 395,85 395,150 330,150', beds:'Twin or super king · ensuite shower', desc:'A small twin room with a wonderful ensuite shower room. The 3ft single beds can be pushed together to make a super king.', img:'https://a0.muscache.com/im/pictures/miso/Hosting-13389344/original/c602ddcb-1714-491c-bd36-033892e9761f.jpeg?im_w=720' },
+  { id:'landingE', f:'f', k:'service', name:'Landing', pts:'262,150 330,150 330,185 310,185 310,215 285,215 262,200' },
+  { id:'spinnakers', f:'f', k:'bed', name:'Spinnakers', pts:'310,185 395,185 395,275 322,275 300,252 310,242', beds:'King · ensuite shower · sea views', desc:'One of the best bedrooms in the house. A king size double with a wonderful ensuite walk-in shower room, barrel ceiling and amazing sea views.', img: IX+'f011b117ea6ef8ba6297885f544739378d35e185/20200507_145538.original.jpg'+Q+'ef6b936abd1a6f79e17476e880db6450' },
+  { id:'kingslake', f:'f', k:'bed', name:'Kings Lake', pts:'272,228 322,272 272,320 225,275', beds:'Twin or super king · sea views', desc:'A twin room with two 3ft single beds which can be pushed together to make a super king. Wonderful sea views. No ensuite.', img: IX+'9969972f37c392ccd3b8bbe814a09c3ea6006e5e/Beach_House_Jul_20_073-HDR.original.jpg'+Q+'7c2febb3b81ed7ace7068c1ba0968e02' },
+  { id:'landingM', f:'f', k:'service', name:'', pts:'200,228 245,205 265,222 230,262 200,262' },
+  { id:'orcombe', f:'f', k:'bed', name:'Orcombe', pts:'85,262 150,262 150,318 85,318', beds:'Small double · ensuite shower', desc:'In the West wing, a small double with a lovely ensuite walk-in shower. No sea view.', img: IX+'b08d095e1791bfdec555de6aa22e9dc2b5fd37be/beachhouse-7260.original.jpg'+Q+'13500ca2b7de5d9b949c3ad82e077279' },
+  { id:'landingW', f:'f', k:'service', name:'', pts:'150,262 230,262 235,285 210,305 150,305' },
+  { id:'shaggles', f:'f', k:'bed', name:'Shaggles', pts:'85,318 175,318 175,400 85,400', beds:'King · ensuite shower · sea views', desc:'An incredible large king size room with views over the sea and the rolling Devon coast. Ensuite shower and toilet.', img: IX+'f227be2eebd78094e0d9b05a842ca17d516e0eb1/20220210_162101.original.jpg'+Q+'e19e45cb02f8bf1381f80161387a5157' },
+  { id:'pebblebed', f:'f', k:'bed', name:'Pebblebed', pts:'175,305 210,305 235,285 272,320 272,400 175,400', beds:'King · ensuite bath · sea views', desc:'The second of the barrel vaulted bedrooms. A wonderful large double with king size bed. The ensuite has the only bath on the first floor. Great sea views.', img: IX+'480cdab0ab0273d6321f20cd8bb7ed4d627d3869/Beach_House_Jul_20_057-HDR-Pano-Edit.original.jpg'+Q+'37566ea5474d30e2f04ccac8bfef8006' },
+
+  { id:'strip', f:'s', k:'service', name:'', pts:'190,262 248,205 264,220 206,278' },
+  { id:'ottercove', f:'s', k:'bed', name:'Otter Cove', pts:'264,220 318,220 318,318 290,318 236,248', beds:'Twin or super king · ensuite shower · sea views', desc:'One of two very special rooms on the second floor. Twin single beds which can be pushed together, a new ensuite walk-in shower and fantastic sea views over the whole of Lyme Bay.', img: IX+'d25936a82a72c000fb01cfac6fd82720d1d01305/Beach_House_April_22_024-HDR.original.jpg'+Q+'a164a60562b7d839b09cab2054742fdf' },
+  { id:'sandybay', f:'s', k:'bed', name:'Sandy Bay', pts:'206,278 236,248 290,318 272,338 196,338 196,288', beds:'King · ensuite shower · sea views', desc:'The mirror image of Otter Cove, with a king size double bed, a new ensuite walk-in shower and wonderful sea views.', img: IX+'ffac1a0d5ec9bc94088c74f5722a63ac8529b01e/Beach_House_April_22_003-HDR.original.jpg'+Q+'0503ecf8ab66c3ccba8acf36c62cf949' },
+  { id:'parking', f:'o', beds:'Room for several cars', desc:'Off-road parking inside the gates on Foxholes Hill, with electric car charging.' },
+  { id:'sauna', f:'o', beds:'Wood-fired barrel sauna', desc:'A barrel sauna in the garden, a few steps from the hot tub and pool.' },
+  { id:'patio', f:'o', beds:'South-facing terrace', desc:'The terrace runs the width of the house and looks straight down the garden to the sea.' },
+  { id:'grill', f:'o', beds:'Pizza oven and barbecue', desc:'Cook outside for the whole group, next to the outdoor dining table.' },
+  { id:'diningOut', f:'o', beds:'Seats the whole group', desc:'Long tables on the terrace for lunches and long lazy evenings outside.' },
+  { id:'hottub', f:'o', beds:'Always hot, year round', desc:'The hot tub sits at the corner of the terrace, open all year.' },
+  { id:'pool', f:'o', beds:'Heated May to September', desc:'A long heated pool at the foot of the lawn, with a sun deck at the far end.' },
+  { id:'showers', f:'o', beds:'Outdoor showers', desc:'Rinse off after the beach or the pool before heading back inside.' }
+]; const PLAN = buildPlan(PLAN0).map(r => { const p = r.pts.split(' ').map(s => s.split(',').map(Number)); r.lx = Math.round(p.reduce((a, q) => a + q[0], 0) / p.length); r.ly = Math.round(p.reduce((a, q) => a + q[1], 0) / p.length); const xs = p.map(q => q[0]), ys = p.map(q => q[1]); r.bw = Math.max(...xs) - Math.min(...xs); r.bh = Math.max(...ys) - Math.min(...ys); return r; });
+const GPAT = { lawn:'url(#bhLawn)', hard:'url(#bhGravel)', deck:'url(#bhPaving)', water:'url(#bhWater)', house:'url(#bhHouse)', feature:'url(#bhTimber)', road:'oklch(0.86 0.006 245)' };
+const FLOORS = [{ id:'g', label:'Ground floor', short:'Ground' }, { id:'f', label:'First floor', short:'First' }, { id:'s', label:'Second floor', short:'Second' }, { id:'o', label:'Grounds', short:'Grounds' }];
+const D = { w: 32, two: true }, K = { w: 36, two: true }, SK = { w: 40, two: true }, S = { w: 18, two: false };
+const FILL = { bed:'oklch(0.92 0.035 80)', living:'oklch(0.9 0.03 215)', service:'oklch(0.97 0.004 85)', bath:'oklch(0.945 0.012 240)', road:'oklch(0.88 0.008 245)', hard:'oklch(0.93 0.018 75)', house:'oklch(0.84 0.012 245)', deck:'oklch(0.9 0.03 60)', feature:'oklch(0.92 0.035 80)', water:'oklch(0.86 0.06 220)', lawn:'oklch(0.9 0.06 140)' };
+
+const GAL_RAW = "5fbd8e8f5c00121f81dbd3ef3658559430477429/Beach_House_3_062.original.jpg|f7c433faca361051abb78fa47367f614|72e02186431fa241c36ce397969b4a52|The Beach House|h\nfa48708c6f03d17b79343b482daf86239526ea45/Beach_House_from_the_garden.original.jpg|fce198bcfd99fdfa39a1aca3faaf0088|d16353082921d8697a1536401078224b|The house from the garden|h\n8170372639d17c5e2ce0bc38644e8ddd49463df3/Beach_House_Jul_20_084-Pano.original.jpg|ea3cf55a628206701163531207c8407d|ae7019b200163291d304bc40903a8cab|The terrace, overlooking the garden and sea|h\n5a32bccb49cdfec68354cfe06b0eb7899b0b2323/Beach_House_April_22_078-HDR.original.jpg|67b4cadb547b194418f9e852db1b6c8a|363e3cb6c8409a5aaf3229649685ea95|The lounge|l\nf70ed068df08cb23b2ebc4824d8a221c285c3df1/Beach_House_April_22_Q2_030.original.jpg|9c2b7504707af3e5e03ec9341063d132|ca58082f0c72b456ddf9ba6e929721f8|Guests celebrating a golden anniversary|l\n1905eb1f2524be0dc401d98c59d4107c0f62fcee/570AA751-5451-49AA-A814-062B79A4CD0C.original.jpeg|7a99dbac39be0cfea721b1dc0f651148|a6a1ab4f2898d426638c451ad1580079|Relaxing in the pool|o\nf011b117ea6ef8ba6297885f544739378d35e185/20200507_145538.original.jpg|471d6d5c9b433efe9eee4c2ef3b9ecc8|9ac8c7839efc7987978d06b35ff37357|Spinnakers|b\n08b239b864b1c230eae3fa37449d42fc500d53b0/20220210_154302.original.jpg|7f6c7067ba48b50c2240749b6a8f3d52|ef81bd112f6414dcc29716a2fd6b2927|The view from the top two bedrooms|b\nfbf91219160cf6182bd9083d4b73af364fb73ae5/E58CF681-1EB2-4F20-966E-FF278A972C65.original.jpeg|1db6f056a177d8c9c901a9d8fa697111|d4b66a695cfedd7df30c98d120200463|Pizza night|h\n3b0c5c92d992fbe44c4e59f48c617ddf334e842d/Beach_House_garden_July_2019-3.original.jpg|35c4681d8b631c6a379ce54f851f42ec|3f9b34f379d1228f3300c3b0f1b74f17|The hot tub, always hot|o\n604a1f76ba1a1baaa05f880b383b5f19f9572e5b/kite-surfing.original.jpg|bff629135547b13d1453938e67f41cef|679823421ca87b01665c5250c0c024bf|Kitesurfing on the doorstep|x\n1804fd392678dde9aeed647c21de668bb82ba499/sauna.original.jpeg|07ea4725e89c010a58c0ca78ac787b13|8732adb46f662523e386c53632273249|Barrel sauna|o\n1c11ae31a3516778c9973a2796aaaf244c5e25c6/Beach_House_2_124-HDR.original.jpg|51aab1e48f7d97b3e5558130568e6d7f|525a56d9839f51c40144602602715624|The kitchen|l\n7a3ee66216d6fe862125c58b97f704630d47dd77/3DC8215E-E4F5-4E9C-9DD1-D6E3C172AE62.original.jpeg|8621a0c098e655412c76f8457306e302|0c5381046ced856aa019a3087c4c26e0|Eating outside always tastes better|h\n735f97a38021c561dcc9a65c5ad4756f0ac1b0a1/26FF5CB1-CDE7-4237-8761-244146E99082.original.jpeg|1fd43488d90cab556050cee3c07962c3|a0fa7baa4a83f71727cb9f80b8b0db77|Sauna|o\nb77e109854e386824aecdd48fa47ad6d55fe9691/1B5A1489.original.JPG|91432925a26d6f8383cbe770a3a03ca8|54e61a34c816e684d84078b57833dc48|The grounds and heated pool|o\n205329a5328918ac70c2472a31a5692353a91d6c/Beach_House_2_043.original.jpg|88edab875f43935a6050dae69c86319e|e7ab6f6850ec05d88a42c12d4e8402a2|Second floor sea views|b\nb576fde8184ed1ba4043e557704f58fe476ed3b3/dinning_room.original.jpg|800025cb03a2028a5c4122ee5c8f3f85|52e6d0ef199059a6449593627208a46c|The dining room|l\n1b67d2900ebac46c754f99231d3aafd9fe82605d/9DBDD41F-F8D3-48B1-97D9-F9BC6F116805.original.jpeg|053923386858b9133816b898582ed01a|c5f7a5bfcb37d8ebf6a557036dd8ee51|Coffee time in the kitchen|l\n378a372729f957ddbc4304865a7c645c7cf9aa55/Beach_House_April_22_Q2_039.original.jpg|c735468fdf8c29d66c07f215293f59fd|d2fb53fef37cb11c7025c6737654455c|Eating and sharing|l\n7137f4fd2144e5d21cb3a71510488d122377c0a8/IMG_4822.original.JPG|3f22f13256808855403a38aeb36ef350|7b29499dc76f9b341352687cadcf280e|The pizza oven|h\na6f41db047444aba59c0e7783efca78b695529ce/29C54F17-EA86-4F5D-8C79-69D7B41A3A5F.original.jpeg|c790d73bb8e35a0a656703e134246567|9cbc9d68f468c59cc8a3b40f3d2e2a85|Let's celebrate|l\n9bae4fc0568bbaee757a03b51246239ec8f0c96f/Beach_House_April_22_039-HDR.original.jpg|f651aa82a2d25776898cbe4065864af9|1a6626dd628d5d377be0136d06c5ff37|TV, play and yoga room|l\n440a8d393d46126e16220222e3b76a39f2d726fd/B255D8FF-693E-4BAB-A41D-FDA5B4286AF7.original.jpeg|72a942055c6ac9d581266b86c67c9073|24b74b453176b8b03d086df72a8ed3c4|Hot tub to herself|o\n43790efd04f537422d3c82e3b586be0bc18c8cc3/Beach_House_April_22_Q2_042.original.jpg|230f00b56cb09e2f09c9447c0205afe3|f0de009077f6120a6bf9e973c46df39d|Summer days|h\nac44c965dbbb01180a74f84760b946c7a74ca043/553B72C1-83D8-4307-A4D4-30D154AF3249.original.jpeg|7770f18389c42e201b7dfebcd9ad302e|daaeecba81fb19bfa0bc974ce73f71cb|Outside dining|h\n12d8249892d70dccc46e73eec225688a0e9f060f/Beach_House_April_22_087-HDR.original.jpg|f15a3f3e8ea28572cc68f7c351a68305|f4f789b419f1bcd9af15d75bf2e489a5|The lounge|l\nd6ee1f9f06748dd4175152b5f71d430d1b4763c9/1B5A1505.original.JPG|2962b7ffdbdc19d8d82d8cc6b538f3f2|4ebf26750e78edd5529ff8c20e81b2f5|The grounds|h\n17bf575120b28160c7992ca71b3298df2ac9ecfb/Beach_House_April_22_Q2_015.original.jpg|c3bc43a281115683a15cbc3a4950eeca|7952d55b9c97e27ef8467e48fab3b060|The TV room|l\n1d47b94408b8261ee9c9660660be35f2a86e2e5e/IMG_4861.original.JPG|2d0f6b61204c97ef186b5dbaf3ade117|a7a56cbc1bad362ed78ff98ff3658f26|Eating with friends|h\n95ef87d51b8c3d1bbaf9b8e67312f6761abb481f/1B5A1475.original.JPG|96315fc81665d7a3c797502e2251dcf3|a80764633362bfb7f5ab64ed2b1fbf2d|The house from the rear|h\n8a36220ed8c478e21812c0e42c90820c5e48c12e/00342BA6-F8B0-4E1C-87C4-0197B64938F5.original.jpeg|dfca25b9bae933a3e405ff2b00fcc884|ee023c9a59e071ed361a0a214eb878a0|The view from the living room|l\nea441b3eef731eb34f4b2a3bddb82513b370d271/20200507_145611.original.jpg|91659ed2c16e20704bab4b63e59022f7|4c7b2126cf339eef8261811be61f1e26|Spinnakers, with sea and garden views|b\nf227be2eebd78094e0d9b05a842ca17d516e0eb1/20220210_162101.original.jpg|31c213de6c45d69c97b5329b73389dfc|a29b76ee39526fa4423b71557dfab371|Shaggles|b\n1e0849e5bca72601beaa9a216ed021c9090e0b78/Beach_House_Jul_20_087.original.jpg|83285358bace0bafb2e2806896d5ca05|f4c31c2709d716426f8399b2a98b87b3|Spinnakers bathroom|b\n87b63a045e8d078db9d3eb73838e61a40e6ede5c/beachhouse-7161.original.jpg|62e7883297e255e8f77ec9dcb9b8a2f0|bd834613b302509f93989d523bfbd1ff|A warm welcome|l\n8c851132433121a28a5907659ca673e72d6486c4/Beach_House_April_22_Q2_043.original.jpg|524cc0edf0c62123e99bd68d79acdad7|e3c520b2e4fbf9e8c4fbea81a5374d96|Down to the sea|x\n480cdab0ab0273d6321f20cd8bb7ed4d627d3869/Beach_House_Jul_20_057-HDR-Pano-Edit.original.jpg|8e22f4aac2df663fc2c89b0f9ec34817|9d38a05d93d6b4b4d41333ae6ed0d5b7|Pebblebed|b\n665ccc6bbf74b20c67a6f805947a555589bfbbc9/39BD9EA9-4C48-43D6-A1FE-0ED102B1A89B.original.jpeg|561fc0846f20ecc155df1930a543bd5c|5c13642399eaccb3e4904f2708ac1c4d|Pebblebed bathroom|b\n5ae724c8521c2d3c3adacc089e09b58b2e5ebd31/beachhouse-7311.original.jpg|31ea0dc59fb073aca356d1b827ae6392|491f87a79d712bc52cb99e6f147a2848|Shelley Beach|b\n9969972f37c392ccd3b8bbe814a09c3ea6006e5e/Beach_House_Jul_20_073-HDR.original.jpg|61a54faf11d15861537e783cb8c85f4e|b57b6ef06d4c2c4f8176110c29cd59df|Kings Lake|b\nd25936a82a72c000fb01cfac6fd82720d1d01305/Beach_House_April_22_024-HDR.original.jpg|a36cee251c3bedccfca4a6671e0298f5|2a34959b76c79519652f3aa6fa714989|Otter Cove|b\nb08d095e1791bfdec555de6aa22e9dc2b5fd37be/beachhouse-7260.original.jpg|a827dcd5ca0db4472a0e58b006b18985|e2b4e0a3bf1bb634f7de98d1585a2393|Orcombe|b\n33192ec449eb11ddb5a8c4b25c8dfd7c40f4b8d6/BCC861AE-D963-43DC-BA81-139B0124AA5E.original.jpeg|7037bb9c54939ef11ce78f0d5f17c21e|7301dc27830238b277a5f2c1475d292f|The living room|l\n529ecee7df46c88f44678e3b7ec86ec6a89bef77/IMG_4852.original.JPG|195be72861db7d7ee28a09d072aadc05|9ab075c42796cb9e421bc59a3ba25a2d|Long lazy evenings|h\n3f61bfe4c7c4d57d2cd51ae99f94336ba56fa96c/IMG_5571.original.jpeg|c1a4c34702101ddd0621379717672dfd|d9db1d55ddc0d61b43ebf2f702e7954a|Sauna|o\n66e5d9d26984e05a336a5c1b90efb1007c17a8fb/IMG_1500.original.jpeg|0acaf50d93c01f44dc4d41952e968739|c770f535188676380f880f4d5d4d63e6|Cocklesands|b\na89fdfda3863457358c51d209c5e2765d0c90160/IMG_4834.original.JPG|9cbffa41c54cbf0cb00f68852fc0693f|c5cae6cded26375784e65dde722a150d|Relaxing in the garden|h\n96713dbaf89f77d73bcdc4672d1fee085e8cf8fa/EC4D2DA1-93E9-4620-AEFD-C41222E523BF.original.jpeg|f2a17e7daa50ac65a3809d0a492e4538|5efc8686840fc470b379f74315602757|Checkstone|b\n1abaf5a1b80af751feaf3212a8d560b11dc7494d/Beach_House_2_091-HDR.original.jpg|1b1065a4eba20cc8dccadb88ee7af6a1|946d00b1bd395b474e5d0afc2003f052|The stairway|l\nffac1a0d5ec9bc94088c74f5722a63ac8529b01e/Beach_House_April_22_003-HDR.original.jpg|ffcb483ad21f158839d77a125c053241|911835d8e283d69398fefc834986bcd1|Sandy Bay|b\ned23f7856105a393561f2eabcb0760be8e010e85/E68EFA41-7B32-431D-85CB-2B7D9DFD2D24.original.jpeg|aaf20524ca38d981962476afacbeb128|3b10fcde24799abeadc442ca99ce5a21|Lazy mornings in the sauna|o\n0c79b357e6ba6c50c389f60fd59b955084497904/IMG_7098.original.jpeg|d8ea73ab93af6d894198be1e3a30e5e5|b16f90387dce54d3c626419565941f6f|Pebblebed|b\nff1412a643dcd76d43d2be3aee86bc9628e2aebe/Beach_House_Views_outside.original.jpeg|baaedb9786f02702ab4e7b939890fe89|d1fc1600b16e44727a295637601864c8|The view outside|h\ned0b53c54ea9a6afc8fa81b015b2c858a26ae027/Beach_House_Jul_20_078.original.jpg|238d0b98fa34a518f83d758c12eccf18|7e6505adb57f0d306f2b901f6761b623|Outside|h\nc793b6cdfb495f868dfa024d9f1e2e3738fdf1e2/IMG_20180514_102811.original.jpg|05d290dd6e5e25139be95d698764571f|985e7a7cf4f0a1c2d2664d2c1a73be66|The pool|o\ne19694e66cb2199bb363ea011323cfe9be932f8e/DA11B904-CEDF-42DF-AB20-AC9F648DEC70.original.jpeg|0e8149e3bdb132858b2329d67a310faf|4f68ca511e83d833ca7b6573c7c069c3|Views for days|b\n06b187b637a049d618c232f62f5ab302b4fd67af/Beach_House_garden_July_2019-53.original.jpg|f3378a92a44922be4c6f0c5be5018379|3afd587d67516377a081119157d3fa2a|Outdoor showers|h\n678f083df708f6b77ce87064b9e83b27b2c64b43/073687EB-2907-4BE2-B6F4-BA56C9B6EA5B.original.jpeg|8036e437f5df83ca74051a84a68434af|22cb5286be599353937c0add57767164|Sea swimming off the house|x\n074b573d28ba76951e9907bc458d106114d70543/Beach_House_garden_July_2019-18.original.jpg|90328fa18abc3bd9d345dcd03d60fe5b|437e3f6a10f8132fefffb33e5da7cef0|The thatched hut|h\n373cf7a384f3598c5b67123d0a6331926e455479/Beach_House_Incredible_garden.original.jpg|251eb78a5cb37b7ff88bcec82a3c3360|e062e51abca9d65f694a6d1c53b618d1|The garden|h\n183a3012a78185bf60a1e5870da4b22b29197f9f/Beach_House_flowers_in_the_garden.original.jpg|712e52c19e2cdde2f927f4aed19e2d4c|185caead64fe29f251ae79627133b1de|Flowers in the garden|h\n21218a581074e2cddb110e1db283f93fc1946a1f/Beach_House_Jul_20_136.original.jpg|f831b17dc0eab748e2020b30f1adaba4|90037ad44e93d45a537248ad19d17c0d|The beach garden|h\nfd15dad1bd8ba6c8746b59cdbebd6e701a79acca/Beach_House_Jul_20_162.original.jpg|e6caa08af8a21d4e7169fc5715ccbc7b|85937324b87af054c39c8b1e5ee10c41|Grade II listed, Arts and Crafts|h\n8ff3ba287656785fd4b7e1d40cc432351bc0c1dc/gate.original.jpeg|19145d950a1ba4efb7e0a6afd09eca59|4705eda4db458c076a8a1f2d26516c85|Welcome in|h\n6b7fa26f1db73b323ecb8b22850896fe1288d75d/IMG_6437.original.JPG|4f62a017abbcdf0e4d59186c3de881aa|fe703afb390e599ad8b6c6ab7511445a|Beautiful views|x\n508a279e224243545b5f4aa83933d1d384800a3b/Exmouth_from_above.original.jpeg|eacbb91f080431313fb24c8f54c04af5|ef561fb3f09c59d18d8de5c1baae2a73|Exmouth from above|x\nb7026442116e572bb2b0a98444a80c288b84ea69/Views_from_above.original.jpeg|68a2772054708dd4abba4fda0037a72c|4e4b218b381b294cdc44be058f831b8a|From above|x\ne184e3cbe17e64fdd5e89c2358c0b8052f196e1f/Drone_shot_of_Exmouth.original.jpeg|a3b1a6c76e8528a00343ceb91b6814e0|9a4eef1169f61f13255b5b9becbf0d82|Exmouth seafront|x\n50703ad4e3ebc4cc0be5dcab80aa2d841239e08a/DJI_0487.original.JPG|22335c209c924fcc46775f1af881ceff|3723ce5bd280e1be05c78f7c612d8907|The River Exe|x\n39cafbac4b5a9f1fc87bc677b70f1e9b8064641f/IMG_1140.original.JPG|b78feb73d195ba26ecd29643dddc197f|f258dcc8c28312076ffccf5de9b2e23d|Year-round watersports|x\n30acc22e33974c76eaf1829a669d9d4e87dafb4c/IMG_6827.original.JPG|cb9dee08a001c654b63f416905f4d304|8e3c7af0432f272f25b60a07bba2ce74|Exmouth|x\nf97f3b6a2f00f86ccadef7aa3668e81a492a5057/sup.original.jpg|d64ac53304f3b96929313e251149508a|e5aeeb36d41457864be291e5d63d65f7|Paddleboarding|x\n487fb6576602df1a167de86d71cfb33942b760d0/Edge_Watersports.original.jpg|c1d070e17ca7afeff7c9d388dcfa969a|98f0322c3b33d8edb80f7be2934fadd7|Edge Watersports|x";
+const GAL = GAL_RAW.split('\n').map(l => { const [p, ts, fs, cap, cat] = l.split('|'); const base = 'https://scrumpy.imgix.net/assets/' + p; return { cap, cat, thumb: base + '?ixlib=rails-2.1.3&auto=format%2Ccompress%2Cenhance&dpr=auto&fit=max&fm=jpg&q=30&w=480&widths=%5B480%2C%201024%2C%201600%5D&s=' + ts, full: base + '?ixlib=rails-2.1.3&auto=format%2Ccompress%2Cenhance&lazy=true&dpr=auto&w=1600&ch=DPR&fm=jpg&fit=max&width=1600&style=aspect-ratio%3A%201600%20%2F%20&s=' + fs }; });
+const DRIVE = ["16xeiolTAszGDDfCrxevsiD_ygRLgNoBd","1BO9FAcsAJdH06IlzX7aTfFo2lj9fNNuE","1SnlwR6chLKQykiQxOy0k2w8AaoV5FDCk","1GW8SpELmiimaLAZ_HXyR21Xrfr56Egg3","1Mrc7-NAcMWHJWC_J86gzY7QJUIJmvSpl","1CbTCG-hVQ_F62YvqdZdy8npq2YqibiTW","1FeecscSz-R766CoQMDsPC8hqIDth2WP-","16dKupSIi8aW8ExMABLyx5WdzWBBqmwFH","1cb-iWWnEIBJFYUpCsKDnNe0oZufrtL3s","1u6_Dnpm2pToayTIHHCkIvW6IxOH7V5Qf","1BN9o8IeRQS5TepMfnKha72tdHJfSsFSd","12_-qxP1SGD7TOLurFmDAYS8tNIFc_DC0","12SgbfLZ86b97xB7-CBLmnTtFiJT8HHKp","1j4IvoNd0ni4EJUtL8hgCD9O5hbyQzXxZ","1A1YWYKhlmuw9GTxkwcd8lb0QeLiTqiZe","1_LxTQmoZNjWyb6Yxgfp---YAWoARN23h","1Z65v5J3M1jLXKDkEZw_bsCB-16HTuHS9","1VLESo6FZT0jy_ZejOlxBbUP7XS47hBda","1uZPoaf5XaWO3V21_A8p0L_3pelkVC92S","1B8zHGIYp-XXGw4CtOxAOX1siXUYTSW-Z","1scrxd4yRSLtVVEeWnFjFq5Dc0G8Y9Xja","1VlyFApL9DzF6DvZhsoyTjco94vkEY3p3","1qbOrr0aTZnXJS7CwSi604QzgL_3cia3G","12afaG6K-SGjD3io6D73_M6QwUGg1LRYr","1jc851x1ezY35LXLnsO4MlA4-oLMAWiNh","1u8kuTV_MFX62z4blIUda-hKwb_zI-Cjf","15e2g3FH3pAxF54FKH9rkY7wTIOdL_2gr","1f3tpHqprvV6ac4UNBaUTZvYsmCHLveUH","1Kf4s8KRlOl8EPWhZxTYCCWvfPNLdkiZA","1aKuLhrGSsBvID14u2zptBIWryAmqkaP9","1WW8PVNssLmAY-3T8afWr9V9zywD_Yelh","10Uz9t6R9TBPt5ruN9VELjXIv5iwdQ0v0","1vkfoRfrhLzh5PpIEEplz0poqAAEKX2U4","1iLaPX8GYz5MHav7OWFqMO4zoa99IyXYd","1TWzl9LsnhciYqht5lujBNmeK4TkPdPye","11k-QACHT3aIqXXUoiK4ZdQaURC5nZlqh","1i7umZl7XJr55RqHWhRTv3gsYSKxERJOs","1vXbw6d0ywV6Ks8F79DzXaB8MY6e7vpH0","1LhMqrzIV_ejHd1J0p2s8biPeaBbL8FGE","1f0xpS5iZm4l2t0hEQ3Si_-PSrO_wY7jc","1gFUGbV6TPF_VPCtSgk13CUHCeMOf7BZ3","1JaSpDp2_cN4yq0EJCLvCTLDhknrSGgyf","1RsMDhJuaXMKtg17jlc9aGPXxQKCxUbHX","11iAAfuphTZ9Cbyk5SQDuqwAia6lGuxzc","16DTpDgU9R4k_anMUs3VpJl2Q4dNKjp5t","1XWqNbP1WiZA30vgvcxEhWlMFVOZOCsDV","1nLpzy7gba1Bg-RKn-Hi-zoXtPiL1gN1q","1XZdvjNlqbi4p64NQx_DU8KneOs4wls-o","19pX-Y-HJU6jLSGB9vFTyHZZmd-yEcdzo","13_1RCktPUtR-MH3FhlNFUZeDLiv9U295","1g4GqTlNpw51LD9PRMLXvjywGPSosYbTn","1URNK4_IFGX2CxN8g24B2MR7lrmTKMsCC","1K1Kwnqy70yBZg9Qbsy0KxLWk5waPIQrI","13wiAKPaX4gEGRlFoeag33sQ2Xub2Duig","1Gg7Fw3dvSJ-4VYhPw66X5uHcz5FFkYgk","1aMdKWM3HI8pT_pJOJtU8D8lImxitgmuQ","1F8nHcBm-MJ59O1cryZfAH74ma8suG3sF","1fTPa24fKZng8QPMiOOuc1-1Amm6XLFWz","1Dte6XF95_7aW7XuvDUO6hmUBYKfKX7Rk","1LeJbru-NiWduVkQxcS0GJPkzu6CkpVoJ","1mFVRYb_fVX0ONPk85iSK9trt4xfpouJm","1ILTsYAao4jGYwO6P5qHuI6tf-EXqAz0g","1frIU8tXLZIUWlMZf01opy9PtytBYI3oq","1Ih11baQaX7F80JIOcQnGpZU2TyAeYAJl","1NecI2fAuPG4WL22zd3DRta2_xlMzH8Qo","1zo_A-gHOjzL2yDTn6P3Hc9PwTNiC6PxN","1RMR8Jfg02M6xKuwhYOTf4a3mjvzhXv5n","12y7A_7ufsCEUJAZoX3IuX0ELPQxlLj9O","14G51uChdQtZi618rxhrDGBy31qtafM8O","1XuJWdSThCbxQQ-xLpY3nV7wgRcn2Y2jV","1QghwkesecKXJmEpt2w1gfcezN3SddYHV","1vqW0y3mM7YQ2Jqs8s7YlO9-LP6vS4G6p","1SLlLrN0gmKil4h00ZIOXP52cfyNSoyGf","1gf75X6LhOSPSQobl0yxIBcnh_PCIZyXm","1Hjgeq0Ic3Bctg717t0OIDMWRTccYZJbJ","1YdYJQxTrGAu0OnlM_e17H7-ICvnJQIPI","1m5ITGXTPWvnz8Ltw8naaWJhSwD8CM2Z_","1_cBYJsW9bCqoq2BYW-no7qFzKcwuGAiq","1z3CxS_yV5j2oP_PuW9gY64bMMSkH8xWK","1VzvfxcD7qz0Xb7IbamIoWbb3qR0krYBE","102f29JZhIifpeAwLlWyfIO9IjCVLTtkW","1s9W3ldwSP7vXCuDeW9IhIMKGYraVxs3z","129SIvNGmSRkfG57e6P0-PpCYspG5YvGG","1OijckB3DwK7_mwKHxpIQIdwvDGHO1Bt4","17v0niBDNpJ1aBqu5ggE9RH8kV-UBD2lk","1ZP78vc7D2UYHxBu3NUyufqDrYuAhZSSZ","1WLq6_O150qvx_0EhISMlpONCbLMGVMDA","134_CgIzAdipPINczWR3Wg8IGMzj0gIJs","1p1Pahv-8-lSq2pm8KsTiq3lViqlNOvp2","1u21jUo3ctcQIZRCnY523HxrICF9rpXw0","1V0MzuueHnlhyp5y46GeBiQN30kTD1Oc4","1lU45-L1GZDWo-pOuEdi54EGG5cpAQpvM","17BU5rQTtl4UIHBY3kIKGjln2nI5viJfx","1qXW5n2UkAnqjDBiqSMnyYHH7jXSQIkNH","1ne15fCsO5-5sAvlBuMzzUEtUaUgu1BQa","1u4FIv5croq0Gz3az6iEVHQmGveBgl7ig","1BcpGNoF9wnMEThI9lGwkCJfqruwne0PU","1L2TkX_jMRc4N3XtNFg1VmK458gqp6roU","1Unfqg58biDjb5LAmyWXvKD2QX6BWh3EY"];
+const DRIVE_META = { "11k-QACHT3aIqXXUoiK4ZdQaURC5nZlqh": ['The kitchen', 'l'], "1Mrc7-NAcMWHJWC_J86gzY7QJUIJmvSpl": ['Cocklesands ensuite', 'b'], "1CbTCG-hVQ_F62YvqdZdy8npq2YqibiTW": ['Cocklesands ensuite', 'b'], "1FeecscSz-R766CoQMDsPC8hqIDth2WP-": ['Cocklesands ensuite', 'b'], "13wiAKPaX4gEGRlFoeag33sQ2Xub2Duig": ['Pebblebed', 'b'], "13_1RCktPUtR-MH3FhlNFUZeDLiv9U295": ['Orcombe', 'b'], "1g4GqTlNpw51LD9PRMLXvjywGPSosYbTn": ['Orcombe', 'b'], "1BO9FAcsAJdH06IlzX7aTfFo2lj9fNNuE": ['Shelley Beach', 'b'], "1SnlwR6chLKQykiQxOy0k2w8AaoV5FDCk": ['Shelley Beach', 'b'], "1GW8SpELmiimaLAZ_HXyR21Xrfr56Egg3": ['Shelley Beach', 'b'], "1_LxTQmoZNjWyb6Yxgfp---YAWoARN23h": ['The hot tub in the garden', 'o'], "1ILTsYAao4jGYwO6P5qHuI6tf-EXqAz0g": ['The barrel sauna in the garden', 'o'], "1K1Kwnqy70yBZg9Qbsy0KxLWk5waPIQrI": ['The garden and pool from the sitting room', 'h'], "1WW8PVNssLmAY-3T8afWr9V9zywD_Yelh": ['The sitting room', 'l'], "1iLaPX8GYz5MHav7OWFqMO4zoa99IyXYd": ['The TV and games room', 'l'], "1XZdvjNlqbi4p64NQx_DU8KneOs4wls-o": ['The dining room', 'l'], "19pX-Y-HJU6jLSGB9vFTyHZZmd-yEcdzo": ['The dining room', 'l'] };
+DRIVE.forEach(id => GAL.push({ cap: (DRIVE_META[id] || ['The Beach House'])[0], cat: (DRIVE_META[id] || [0, 'n'])[1], thumb: 'https://drive.google.com/thumbnail?id=' + id + '&sz=w600', full: 'https://drive.google.com/thumbnail?id=' + id + '&sz=w1600' }));
+const GAL_CATS = [['all', 'All'], ['h', 'House and garden'], ['l', 'Living and dining'], ['b', 'Bedrooms'], ['o', 'Pool, hot tub and sauna'], ['x', 'Exmouth and the water'], ['n', 'New photos']];
+const GSUF = '?ixlib=rails-2.1.3&auto=format%2Ccompress%2Cenhance&lazy=true&dpr=auto&w=1600&ch=DPR&fm=jpg&fit=max&width=1600&style=aspect-ratio%3A%201600%20%2F%20&s=';
+const AB = 'https://a0.muscache.com/im/pictures/miso/Hosting-13389344/original/';
+const PH = label => ({ ph: label });
+const ROOM_PHOTOS = {
+  shelley: [['https://drive.google.com/thumbnail?id=1BO9FAcsAJdH06IlzX7aTfFo2lj9fNNuE&sz=w1600', 'Shelley Beach'], ['https://drive.google.com/thumbnail?id=1SnlwR6chLKQykiQxOy0k2w8AaoV5FDCk&sz=w1600', 'The bedroom'], ['https://drive.google.com/thumbnail?id=1GW8SpELmiimaLAZ_HXyR21Xrfr56Egg3&sz=w1600', 'Another angle'], ['beachhouse-7311', 'The bedroom'], [IX + '661ebca292e0626d197c3defb1e18c6861998431/beachhouse-7314.original.jpg' + GSUF + '0a7ea541cf64af1b50098b29c6b6fddd', 'Another angle'], PH('Ensuite with walk-in shower')],
+  checkstone: [['EC4D2DA1', 'Twin beds'], [IX + '4c03c570eb607458dc27e2efaada902f1622846e/IMG_6800.original.jpeg?ixlib=rails-2.1.3&auto=format%2Ccompress%2Cenhance&lazy=true&dpr=auto&w=1600&ch=DPR&fm=jpg&fit=max&width=1500&style=aspect-ratio%3A%201500%20%2F%20&s=b450f7fc0fa0c38474e51215991ef8b6', 'Twin or king'], [AB + '488c24f7-f8b3-45f9-9f08-5a5072f3ac5c.jpeg?im_w=1200', 'The East wing']],
+  cocklesands: [['IMG_1500', 'Twin, or pushed together as a king'], ['https://drive.google.com/thumbnail?id=1Mrc7-NAcMWHJWC_J86gzY7QJUIJmvSpl&sz=w1600', 'Ensuite shower room'], ['https://drive.google.com/thumbnail?id=1CbTCG-hVQ_F62YvqdZdy8npq2YqibiTW&sz=w1600', 'Ensuite'], ['https://drive.google.com/thumbnail?id=1FeecscSz-R766CoQMDsPC8hqIDth2WP-&sz=w1600', 'Ensuite'], [AB + 'c602ddcb-1714-491c-bd36-033892e9761f.jpeg?im_w=1200', 'The East wing'], PH('Ensuite shower room')],
+  spinnakers: [['20200507_145538', 'Barrel ceiling and sea views'], ['20200507_145611', 'Sea and garden views'], ['Beach_House_Jul_20_087', 'Ensuite walk-in shower'], ['DA11B904', 'The view to wake up to']],
+  kingslake: [['Beach_House_Jul_20_073', 'Twin or king'], PH('Beds made up as a super king'), PH('Sea view from the window')],
+  pebblebed: [['https://drive.google.com/thumbnail?id=13wiAKPaX4gEGRlFoeag33sQ2Xub2Duig&sz=w1600', 'Pebblebed'], ['Beach_House_Jul_20_057', 'Sea views to the east'], ['IMG_7098', 'A space to relax'], ['39BD9EA9', 'Ensuite with bath'], [AB + '4fa63a69-f83f-449b-9bfa-c9bdca5fbd0b.jpeg?im_w=1200', 'Alcove beds for families']],
+  shaggles: [['20220210_162101', 'Sea views'], [AB + '3950f8e4-f35c-4188-8305-46a37318db7f.jpeg?im_w=1200', 'King bed'], PH('Ensuite shower room')],
+  orcombe: [['https://drive.google.com/thumbnail?id=13_1RCktPUtR-MH3FhlNFUZeDLiv9U295&sz=w1600', 'Orcombe'], ['https://drive.google.com/thumbnail?id=1g4GqTlNpw51LD9PRMLXvjywGPSosYbTn&sz=w1600', 'Another angle'], ['beachhouse-7260', 'The bedroom'], [IX + '67a6a09065a6a0018d08b896a574720ef1e768c5/beachhouse-7265.original.jpg' + GSUF + '4d6249e20899f06bcee4c9c1c43a5407', 'Ensuite walk-in shower'], PH('The bedroom, second angle')],
+  ottercove: [['Beach_House_April_22_024', 'Twin or king, new ensuite'], ['20220210_154302', 'The view over Lyme Bay'], ['Beach_House_2_043', 'Second floor sea views']],
+  sandybay: [['Beach_House_April_22_003', 'King bed, huge sea views'], [AB + '09bf7413-a519-47fa-8831-8747f672e912.jpeg?im_w=1200', 'Top floor, ensuite'], ['20220210_154302', 'The view over Lyme Bay']],
+  kitchen: [['https://drive.google.com/thumbnail?id=11k-QACHT3aIqXXUoiK4ZdQaURC5nZlqh&sz=w1600', 'The kitchen'], ['Beach_House_2_124', 'The kitchen'], ['9DBDD41F', 'Coffee time'], [IX + 'f1a8ac31a910063da16677df60c2f9d3733b1537/Beach_House_Kitchen_2_Pano.original.jpg?ixlib=rails-2.1.3&auto=format%2Ccompress%2Cenhance&dpr=auto&fit=max&fm=jpg&w=1600&widths=%5B480%2C%201024%2C%201600%5D&s=a98fcbf4ff14bee97f518619eab457f6', 'Built for group catering']],
+  dining: [['https://drive.google.com/thumbnail?id=1XZdvjNlqbi4p64NQx_DU8KneOs4wls-o&sz=w1600', 'The dining room'], ['https://drive.google.com/thumbnail?id=19pX-Y-HJU6jLSGB9vFTyHZZmd-yEcdzo&sz=w1600', 'The dining room'], ['dinning_room', 'Seats 20'], ['Q2_030', 'A golden anniversary'], ['Q2_039', 'Eating and sharing']],
+  sitting: [['https://drive.google.com/thumbnail?id=1WW8PVNssLmAY-3T8afWr9V9zywD_Yelh&sz=w1600', 'The sitting room'], ['April_22_078', 'Sofas and sea views'], ['https://drive.google.com/thumbnail?id=1K1Kwnqy70yBZg9Qbsy0KxLWk5waPIQrI&sz=w1600', 'The garden and pool from the sitting room'], ['April_22_087', 'Sofas and wood burner'], ['00342BA6', 'The view']],
+  tv: [['https://drive.google.com/thumbnail?id=1iLaPX8GYz5MHav7OWFqMO4zoa99IyXYd&sz=w1600', 'Billiards and games'], ['Q2_015', 'TV room'], ['April_22_039-HDR', 'Play and yoga space'], PH('Doors to the garden')]
+};
+const roomPhotos = id => (ROOM_PHOTOS[id] || []).map(p => {
+  if (p.ph) return null;
+  const [key, cap] = p;
+  if (key.startsWith('http')) return { url: key, cap };
+  const g = GAL.find(x => x.full.includes(key));
+  return g ? { url: g.full, cap } : null;
+}).filter(Boolean);
+const DHI = i => 'https://drive.google.com/thumbnail?id=' + DRIVE[i] + '&sz=w2560';
+const galFull = k => (GAL.find(g => g.full.includes(k)) || {}).full;
+const HERO = {
+  summer: () => [["https://scrumpy.imgix.net/assets/8a463e2c7670db236e2221577b7b59762dc84410/Beach_House_from_the_garden_banner.original.jpg?ixlib=rails-2.1.3&auto=format%2Ccompress&dpr=auto&fit=max&fm=jpg&w=1600&widths=%5B480%2C%201024%2C%201600%5D&s=6f2a4cf0cba30e3005da06325b4207c0", 'The Beach House from the garden'], [DHI(52), 'The garden and pool from the sitting room'], [galFull('Beach_House_Jul_20_084-Pano'), 'The terrace, overlooking the garden and sea'], [DHI(30), 'The sitting room']],
+  winter: () => [["https://scrumpy.imgix.net/assets/f31b77504da0cdd131ea775be21b647037ebe3ee/Beach_House_Lounge_Pano.original.jpg?ixlib=rails-2.1.3&auto=format%2Ccompress%2Cenhance&dpr=auto&fit=max&fm=jpg&w=1600&widths=%5B480%2C%201024%2C%201600%5D&s=cb8f663c5d195f8a39761040da53a130", 'The lounge with sea views'], [DHI(30), 'The sitting room'], [DHI(47), 'The dining room'], [DHI(35), 'The kitchen']]
+};
+const polyPts = s => s.split(' ').map(q => q.split(',').map(Number));
+const pip = (P, x, y) => { let c = false; for (let i = 0, j = P.length - 1; i < P.length; j = i++) { const [xi, yi] = P[i], [xj, yj] = P[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c; } return c; };
+const rectIn = (P, cx, cy, hw, hh) => { for (let k = 0; k <= 6; k++) { const t = k / 6; const px = cx - hw + 2 * hw * t, py = cy - hh + 2 * hh * t; if (!pip(P, px, cy - hh) || !pip(P, px, cy + hh) || !pip(P, cx - hw, py) || !pip(P, cx + hw, py)) return false; } return true; };
+const labelSpot = (pts, ar) => {
+  const P = polyPts(pts);
+  const xs = P.map(p => p[0]), ys = P.map(p => p[1]);
+  const bx0 = Math.min(...xs), bx1 = Math.max(...xs), by0 = Math.min(...ys), by1 = Math.max(...ys);
+  let best = { x: (bx0 + bx1) / 2, y: (by0 + by1) / 2, hx: 0, hy: 0 };
+  for (let i = 1; i < 24; i++) for (let j = 1; j < 24; j++) {
+    const x = bx0 + (bx1 - bx0) * i / 24, y = by0 + (by1 - by0) * j / 24;
+    if (!pip(P, x, y)) continue;
+    let lo = 0, hi = (bx1 - bx0) / 2;
+    for (let it = 0; it < 12; it++) { const m = (lo + hi) / 2; if (rectIn(P, x, y, m, m / ar)) lo = m; else hi = m; }
+    if (lo > best.hx) best = { x, y, hx: lo, hy: lo / ar };
+  }
+  return best;
+};
+ROOM_PHOTOS.pool = [['570AA751', 'Relaxing in the pool'], ['1B5A1489', 'Heated May to September'], ['IMG_20180514', 'The pool']];
+ROOM_PHOTOS.hottub = [[DHI(15), 'The hot tub in the garden'], ['garden_July_2019-3', 'Always hot and bubbling'], ['B255D8FF', 'Hot tub to herself']];
+ROOM_PHOTOS.sauna = [[DHI(61), 'The barrel sauna'], ['sauna.original', 'Barrel sauna'], ['IMG_5571', 'Inside the sauna'], ['E68EFA41', 'Lazy mornings']];
+ROOM_PHOTOS.diningOut = [['553B72C1', 'Outside dining'], ['3DC8215E', 'Eating outside'], ['IMG_4861', 'Eating with friends'], ['IMG_4852', 'Long lazy evenings']];
+ROOM_PHOTOS.grill = [['IMG_4822', 'The pizza oven'], ['E58CF681', 'Pizza night']];
+ROOM_PHOTOS.patio = [['Beach_House_Jul_20_084-Pano', 'The terrace'], ['Q2_042', 'Summer days'], [DHI(52), 'Looking down the garden']];
+ROOM_PHOTOS.showers = [['garden_July_2019-53', 'Outdoor showers']];
+ROOM_PHOTOS.parking = [['gate.original', 'Welcome in'], ['BC33ECA3', 'Electric charging'], ['Beach_House_Jul_20_162', 'Arriving at the house']];
+const THEMES = {
+  A: { name: 'Original', vars: {} },
+  B: { name: 'Bloom', vars: { '--paper': '#ECEBE1', '--paperA': 'rgba(236,235,225,0.94)', '--paper2': '#E3E1D4', '--paper2h': '#D9D7C8', '--ink': '#141414', '--deep': '#1E1E1B', '--accent': 'oklch(0.52 0.11 75)', '--muted': '#46453F', '--line': '#D2D0C2', '--btn': '#F6C762', '--btnFg': '#141414', '--btnHover': '#EDB84A', '--avail': '#F3E3B5', '--display': "'Raleway',sans-serif", '--serif': "'EB Garamond',serif", '--sans': "'Raleway',sans-serif", '--logoFont': "'Raleway',sans-serif", '--logoCase': 'uppercase', '--logoTrack': '0.16em', '--logoWeight': '700', '--logoSize': '18px' } },
+  C: { name: 'Hales', vars: { '--paper': '#FFFFFF', '--paper2': '#EFEAF2', '--paper2h': '#E6DFEB', '--ink': '#161616', '--deep': '#373C24', '--paperA': 'rgba(249,246,239,0.96)', '--btnHover': '#333333', '--accent': '#5F6441', '--muted': '#4A4A4A', '--line': '#E4E1E7', '--btn': '#111111', '--btnFg': '#FFFFFF', '--avail': '#E4E7D6', '--display': "'Instrument Serif',serif", '--serif': "'Karla',sans-serif", '--sans': "'Karla',sans-serif", '--logoFont': "'Instrument Serif',serif", '--logoCase': 'uppercase', '--logoTrack': '0.1em', '--logoSize': '22px' } },
+  D: { name: 'Clove', vars: { '--paper': '#FFFFFF', '--paperA': 'rgba(255,255,255,0.94)', '--paper2': '#F7F2EF', '--paper2h': '#EFE6E1', '--ink': '#36403C', '--deep': '#34413A', '--accent': '#B8705A', '--muted': '#5A5A5A', '--line': '#E7E2DF', '--btn': '#B5694F', '--btnFg': '#FFFFFF', '--btnHover': '#A45C44', '--avail': '#F4DED5', '--display': "'Newsreader',serif", '--dw': '300', '--serif': "'Mulish',sans-serif", '--sans': "'Mulish',sans-serif", '--logoFont': "'Newsreader',serif", '--logoWeight': '400', '--logoSize': '24px' } },
+  E: { name: 'Suffolk', vars: { '--paper': '#F5F4E8', '--paperA': 'rgba(245,244,232,0.94)', '--paper2': '#ECE9DA', '--paper2h': '#E4E0CE', '--ink': '#1F1F1B', '--deep': '#55554A', '--accent': '#6E6E57', '--muted': '#45453D', '--line': '#CFCCBC', '--btn': '#6E6D58', '--btnFg': '#FFFFFF', '--btnHover': '#5E5D4A', '--avail': '#E2E0CD', '--display': "'Tinos',serif", '--serif': "'Tinos',serif", '--sans': "'Tinos',serif", '--logoFont': "'Tinos',serif", '--logoSize': '26px' } },
+  F: { name: 'Kanzo', vars: { '--paper': '#F4F4F3', '--paperA': 'rgba(244,244,243,0.94)', '--paper2': '#FFFFFF', '--paper2h': '#ECECEA', '--ink': '#111111', '--deep': '#2F3E38', '--accent': '#4F6B5E', '--muted': '#5C5C5C', '--line': '#E0E0DD', '--btn': '#4F6B5E', '--btnFg': '#FFFFFF', '--btnHover': '#435C50', '--avail': '#DCE5DF', '--display': "'Inter Tight',sans-serif", '--dw': '500', '--dls': '-0.03em', '--serif': "'Newsreader',serif", '--sans': "'Inter',sans-serif", '--logoFont': "'Inter',sans-serif", '--logoCase': 'uppercase', '--logoTrack': '0.04em', '--logoWeight': '500', '--logoSize': '16px' } }
+};
+const THEME_WINTER = {"A":{"--paper":"oklch(0.965 0.01 70)","--paperA":"oklch(0.965 0.01 70 / 0.94)","--paper2":"oklch(0.935 0.018 60)","--paper2h":"oklch(0.915 0.022 60)","--deep":"oklch(0.22 0.035 260)","--btn":"oklch(0.22 0.035 260)","--btnHover":"oklch(0.3 0.04 260)","--accent":"oklch(0.48 0.1 35)","--avail":"oklch(0.91 0.04 50)","--line":"oklch(0.87 0.015 60)"},"B":{"--paper":"#E7E4D8","--paperA":"rgba(231,228,216,0.94)","--paper2":"#DDD8C8","--paper2h":"#D2CCBA","--deep":"#2A2822","--accent":"#94502D","--avail":"#EBD6C1","--btn":"#E3A94B","--btnHover":"#D69A3C"},"C":{"--paper":"#F8F4EE","--paperA":"rgba(248,244,238,0.96)","--paper2":"#EEDFE2","--paper2h":"#E5D1D6","--deep":"#3B2530","--accent":"#7D3A50","--avail":"#EFDCE1","--line":"#E6DADB","--btn":"#3B2530","--btnHover":"#4E3140"},"D":{"--paper2":"#F0E8E3","--paper2h":"#E7DCD5","--deep":"#2A302C","--accent":"#9A4A36","--btn":"#9A4A36","--btnHover":"#86402F","--avail":"#EFD8CE"},"E":{"--paper":"#EFECDF","--paperA":"rgba(239,236,223,0.94)","--paper2":"#E4DFCD","--paper2h":"#DAD4BF","--deep":"#3E3931","--accent":"#6B5E4B","--btn":"#5A5145","--btnHover":"#4A433A","--avail":"#E4DAC6"},"F":{"--paper":"#EDEDEA","--paperA":"rgba(237,237,234,0.94)","--paper2":"#F8F8F6","--deep":"#232A27","--accent":"#3D4F47","--btn":"#3D4F47","--btnHover":"#33433C","--avail":"#D5DED8"}};
+const CAL = ['---BBBBBB-BBBSAAABBBSAAASBBSAA','ABBBBBBBBBB---BBB--B--BBB-BBBSA','A---BBB-SAAASAASAAASAASAAASAAS','AAASAASAAASAASAAA--BBBBBBBB-BBB','B------SAASAAASAASAAASAASAAASAA','SAAASAASAAASAASAAASAASAAASAA','SAAABBB---BBBB---BBB-SAAABBBBBB','-BBBBBBBSAASAAASAA--BBBB-SAAAB','BBSAAABBBSAAABBBSAAABBBBBBBBBBB','BBBSAA'+'B'.repeat(21)+'SAA','A'+'B'.repeat(10)+'SAAA'+'B'.repeat(16),'B'.repeat(31)];
+const DAYS = []; const MSTART = [];
+CAL.forEach((s, mi) => { MSTART.push(DAYS.length); [...s].forEach((st, d) => DAYS.push({ mi, d: d + 1, st, date: new Date(2026, 8 + mi, d + 1) })); });
+const fmt = d => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+class Component extends DCLogic {
+  state = { season: null, searched: false, calPage: 0, arr: null, dep: null, hero: 0, mapsH: 500, theme: null, galCat: 'all', galAll: false, lb: null, lbList: null, pi: 0, floor: 'all', sel: 'spinnakers', hover: null, exploded: true, scale: 1 };
+  sceneRef = el => {
+    if (el === this.sceneEl) return;
+    this.ro && this.ro.disconnect();
+    this.sceneEl = el;
+    if (!el) return;
+    this.ro = new ResizeObserver(() => { const w = el.clientWidth; if (w && w !== this.state.w) this.setState({ w }); });
+    this.ro.observe(el);
+    requestAnimationFrame(() => el.clientWidth && this.setState({ w: el.clientWidth }));
+  };
+  startHero() { clearInterval(this.heroT); this.heroT = setInterval(() => this.setState(s => ({ hero: s.hero + 1 })), 6000); }
+  componentDidMount() {
+    this.onMsg = e => { const v = e.data && e.data.bhMapsHeight; if (v && v !== this.state.mapsH) this.setState({ mapsH: v }); };
+    window.addEventListener('message', this.onMsg);
+    this.startHero();
+    this.onKey = e => {
+      if (this.state.lb === null) return;
+      const n = (this.state.lbList || (this.state.galCat === 'all' ? GAL : GAL.filter(g => g.cat === this.state.galCat))).length;
+      if (e.key === 'Escape') this.setState({ lb: null, lbList: null });
+      if (e.key === 'ArrowRight') this.setState(s => ({ lb: (s.lb + 1) % n }));
+      if (e.key === 'ArrowLeft') this.setState(s => ({ lb: (s.lb - 1 + n) % n }));
+    };
+    window.addEventListener('keydown', this.onKey);
+    this.onResize = () => { if (this.sceneEl) this.setState({ w: this.sceneEl.clientWidth }); else this.forceUpdate(); };
+    window.addEventListener('resize', this.onResize);
+    [0, 100, 400, 1200].forEach(t => setTimeout(this.onResize, t));
+  }
+  componentDidUpdate() { if (this.sceneEl && !this.state.w && this.sceneEl.clientWidth) this.setState({ w: this.sceneEl.clientWidth }); }
+  componentWillUnmount() { window.removeEventListener('message', this.onMsg); clearInterval(this.heroT); window.removeEventListener('keydown', this.onKey); window.removeEventListener('resize', this.onResize); this.ro && this.ro.disconnect(); }
+  galVals() {
+    const { galCat, galAll, lb } = this.state;
+    const ink = 'var(--ink, oklch(0.25 0.03 245))';
+    const glist = galCat === 'all' ? GAL : GAL.filter(g => g.cat === galCat);
+    const list = this.state.lbList || glist;
+    const shown = galAll || galCat !== 'all' ? glist : glist.slice(0, 12);
+    const cur = lb !== null ? list[lb] : null;
+    return {
+      galCats: GAL_CATS.map(([id, label]) => ({ label, bg: galCat === id ? ink : 'transparent', fg: galCat === id ? '#fff' : ink, border: galCat === id ? ink : 'oklch(0.84 0.012 85)', onClick: () => this.setState({ galCat: id, lb: null }) })),
+      gal: shown.map((g, i) => ({ thumb: g.thumb, cap: g.cap, open: () => this.setState({ lb: i, lbList: null }) })),
+      galMore: shown.length < glist.length, galTotal: glist.length,
+      galShowAll: () => this.setState({ galAll: true }),
+      lbOpen: !!cur,
+      lb: cur ? { full: cur.full, cap: cur.cap, pos: (lb + 1) + ' / ' + list.length } : { full: '', cap: '', pos: '' },
+      lbClose: () => this.setState({ lb: null, lbList: null }),
+      lbStop: e => e.stopPropagation(),
+      lbPrev: e => { e.stopPropagation(); this.setState({ lb: (lb - 1 + list.length) % list.length }); },
+      lbNext: e => { e.stopPropagation(); this.setState({ lb: (lb + 1) % list.length }); }
+    };
+  }
+  calVals() {
+    const { calPage, arr, dep } = this.state;
+    const ink = 'var(--ink, oklch(0.25 0.03 245))', sea = 'var(--accent, oklch(0.48 0.06 215))';
+    const clear = (a, b) => DAYS.slice(a + 1, b).every(x => x.st === 'A' || x.st === 'S');
+    const click = i => {
+      const x = DAYS[i];
+      if (arr !== null && dep === null && i > arr && i - arr >= 3 && clear(arr, i) && x.st !== '-') return this.setState({ dep: i });
+      if (x.st === 'S') this.setState({ arr: i, dep: null });
+    };
+    const months = [0, 1, 2, 3].map(k => calPage + k).filter(mi => mi < CAL.length).map(mi => {
+      const first = new Date(2026, 8 + mi, 1); const lead = (first.getDay() + 6) % 7;
+      const cells = Array.from({ length: lead }, () => ({ label: '', bg: 'transparent', fg: ink, cursor: 'default', ring: 'none', deco: 'none', onClick: null }));
+      CAL[mi].split('').forEach((st, d) => {
+        const i = MSTART[mi] + d;
+        const inR = arr !== null && (dep !== null ? i >= arr && i < dep : i === arr);
+        const isDep = dep !== null && i === dep;
+        const canDep = arr !== null && dep === null && i > arr && i - arr >= 3 && clear(arr, i) && st !== '-';
+        let bg = st === 'S' ? sea : st === 'A' ? 'var(--avail, oklch(0.9 0.03 215))' : st === 'B' ? 'oklch(0.9 0.006 245)' : 'oklch(0.965 0.006 85)';
+        let fg = st === 'S' ? '#fff' : st === 'A' ? ink : 'oklch(0.62 0.01 245)';
+        if (inR) { bg = ink; fg = '#fff'; }
+        cells.push({ label: d + 1, bg, fg, deco: st === 'B' ? 'line-through' : 'none', cursor: st === 'S' || canDep ? 'pointer' : 'default', ring: isDep ? 'inset 0 0 0 2px ' + ink : canDep ? 'inset 0 0 0 1px ' + sea : 'none', onClick: () => click(i) });
+      });
+      return { title: first.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }), cells };
+    });
+    const nights = arr !== null && dep !== null ? dep - arr : 0;
+    return {
+      months, weekdays: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+      calPrev: () => this.setState({ calPage: Math.max(0, calPage - 1) }),
+      calNext: () => this.setState({ calPage: Math.min(CAL.length - 4, calPage + 1) }),
+      calPrevOp: calPage === 0 ? 0.35 : 1, calNextOp: calPage >= CAL.length - 4 ? 0.35 : 1,
+      calReady: nights > 0,
+      calSummary: arr === null ? 'Select an arrival day' : dep === null ? 'Arrive ' + fmt(DAYS[arr].date) + ' · now choose a departure' : fmt(DAYS[arr].date) + ' to ' + fmt(DAYS[dep].date) + ' · ' + nights + ' nights'
+    };
+  }
+  plan2dVals(s, ink, sea) {
+    const f = s.f, hover = this.state.hover;
+    const rooms = PLAN.filter(r => r.f === f);
+    const P = rooms.flatMap(r => r.pts.split(' ').map(q => q.split(',').map(Number)));
+    const x0 = Math.min(...P.map(p => p[0])), x1 = Math.max(...P.map(p => p[0])), y0 = Math.min(...P.map(p => p[1])), y1 = Math.max(...P.map(p => p[1]));
+    const W = x1 - x0, H = y1 - y0;
+    const vw = window.innerWidth || 1200, vh = window.innerHeight || 800;
+    const pxW = Math.min(vw >= 900 ? Math.min(1400, vw) * 0.3 : vw - 40, Math.max(300, vh * 0.7 * W / H));
+    const minU = 9 * W / pxW;
+    const firstOn = F => (PLAN.find(r => r.f === F && r.desc && r.k === 'bed') || PLAN.find(r => r.f === F && r.desc)).id;
+    return {
+      p2: {
+        viewBox: x0 + ' ' + y0 + ' ' + W + ' ' + H, ratio: W + ' / ' + H, ar: (W / H).toFixed(3),
+        rooms: rooms.map(r => { const isSel = r.id === s.id, isHov = r.id === hover && !isSel; return {
+          pts: r.pts, fill: isSel ? sea : isHov ? 'oklch(0.82 0.05 215)' : f === 'o' ? GPAT[r.k] : FILL[r.k], stroke: f === 'o' ? (r.k === 'lawn' ? 'oklch(0.55 0.06 145)' : r.k === 'road' ? 'none' : 'oklch(0.3 0.03 245)') : 'oklch(0.25 0.03 245)', sw: f === 'o' ? (r.k === 'house' ? 1.6 : 0.9) : 2, cursor: r.desc ? 'pointer' : 'default',
+          onEnter: () => r.desc && this.setState({ hover: r.id }), onLeave: () => this.setState({ hover: null }),
+          onClick: () => r.desc && this.setState({ sel: r.id, pi: 0 }) }; }),
+        labels: rooms.filter(r => r.name).map(r => {
+          const minor = r.k === 'service' || r.k === 'bath';
+          const ar = Math.max(1.4, Math.max(...r.name.split(' ').map(w => w.length)) * 0.72 / (r.dims && !minor ? 2.5 : 1.3));
+          const sp = labelSpot(r.pts, ar), availW = sp.hx * 2 * 0.92, availH = sp.hy * 2 * 0.92;
+          const words = r.name.toUpperCase().split(' '), cw = 0.72;
+          let fs = Math.max(W * (minor ? 0.021 : 0.027), minU), lines = 1, dims = !!r.dims && !minor;
+          const fit = () => { const longest = Math.max(...words.map(w => w.length)); if (longest * fs * cw > availW) return false; lines = r.name.length * fs * cw > availW ? words.length : 1; return lines * fs * 1.15 + (dims ? fs * 1.3 : 0) <= availH; };
+          while (!fit() && fs * 0.92 >= minU) fs *= 0.92;
+          if (!fit() && dims) { dims = false; fs = Math.max(W * (minor ? 0.021 : 0.027), minU); while (!fit() && fs * 0.92 >= minU) fs *= 0.92; }
+          if (!fit()) return null;
+          return { name: r.name, left: ((sp.x - x0) / W * 100) + '%', top: ((sp.y - y0) / H * 100) + '%', mw: (availW / W * 100) + '%',
+            fs: 'max(9px, ' + (fs / W * 100).toFixed(2) + 'cqw)', color: r.id === s.id || r.k === 'house' ? '#fff' : minor ? 'oklch(0.45 0.02 245)' : ink, dims: r.dims || '', showDims: dims };
+        }).filter(Boolean)
+      },
+      p2Grounds: f === 'o', p2Indoor: f !== 'o',
+      p2Tabs: FLOORS.map(F => ({ label: F.label, bg: F.id === f ? ink : 'transparent', fg: F.id === f ? '#fff' : ink, onClick: () => F.id !== f && this.setState({ sel: firstOn(F.id), floor: F.id, pi: 0 }) }))
+    };
+  }
+  planVals() {
+    const { floor, sel, hover, exploded } = this.state;
+    const W = this.state.w || 1200;
+    const single = exploded && W < 1250;
+    const scale = single ? Math.min(1.15, W / 740) : Math.min(1, W / (exploded ? 1560 : 880));
+    const sf = floor === 'all' ? PLAN.find(r => r.id === sel).f : floor;
+    const ink = 'var(--ink, oklch(0.25 0.03 245))', sea = 'oklch(0.48 0.06 215)';
+    const gap = exploded ? 18 : 26, spread = 500, c36 = 0.809, s36 = 0.588;
+    const pick = r => this.setState({ pi: 0, sel: r.id, floor: this.state.floor === 'all' ? 'all' : r.f });
+    const floors = FLOORS.map((F, i) => {
+      const active = single ? F.id === sf : floor === 'all' || floor === F.id;
+      const hidden = single ? F.id !== sf : !exploded && floor !== 'all' && FLOORS.findIndex(x => x.id === floor) < i;
+      const dx = exploded && !single ? (i - 1) * spread : 0;
+      return {
+        transform: `translate(${dx * c36}px, ${dx * s36}px) translateZ(${hidden ? i * gap + 420 : i * gap}px)`,
+        slab: active ? 'oklch(0.55 0.02 245)' : 'oklch(0.86 0.01 245)',
+        stroke: active ? ink : 'oklch(0.8 0.01 245)',
+        pe: active && !hidden ? 'auto' : 'none',
+        rooms: hidden ? [] : PLAN.filter(r => r.f === F.id).map(r => {
+          const isSel = r.id === sel, isHov = r.id === hover && r.desc;
+          return {
+            pts: r.pts, lx: r.lx, ly: r.ly, name: r.name,
+            fs: Math.max(Math.min(11, Math.ceil(8 / scale)), Math.min(r.k === 'service' || r.k === 'bath' ? 9 : 12, Math.floor((Math.min(r.bw, r.bh * 1.6) - 12) / (Math.max(...r.name.split(' ').map(w => w.length), 1) * 0.72)))), dims: r.dims || '', showDims: !!r.dims && active && r.bw >= 60 && r.bh >= 45, mw: Math.max(30, r.bw - 10),
+            showLabel: !!r.name && active,
+            fill: !active ? 'oklch(0.97 0.004 85)' : isSel ? sea : isHov ? 'oklch(0.82 0.05 215)' : FILL[r.k],
+            labelColor: isSel ? '#fff' : ink,
+            onEnter: () => r.desc && this.setState({ hover: r.id }),
+            onLeave: () => this.setState({ hover: null }),
+            onClick: () => r.desc && pick(r)
+          };
+        })
+      };
+    });
+    const s = PLAN.find(r => r.id === sel);
+    const chipFloor = s.f;
+    return {
+      sceneRef: this.sceneRef,
+      sceneH: Math.round((exploded ? 460 : 560) * scale),
+      sceneTop: Math.round(((exploded ? 460 : 560) * scale) / 2 + (exploded ? 30 : 90) * scale - 300),
+      floorLabels: single ? [{ text: FLOORS.find(F => F.id === sf).label, left: '50%', color: ink }] : exploded ? FLOORS.map((F, i) => ({ text: F.label, left: `calc(50% + ${Math.round((i - 1) * spread * scale)}px)`, color: floor === 'all' || floor === F.id ? 'oklch(0.25 0.03 245)' : 'oklch(0.7 0.01 245)' })) : [],
+      sceneTransform: `scale(${scale}) rotateX(57deg) rotateZ(-36deg)`,
+      floors,
+      ...this.plan2dVals(s, ink, sea),
+      floorTabs: (single ? FLOORS : [{ id:'all', short:'All' }, ...FLOORS]).map(t => ({ label: t.short, bg: (single ? sf : floor) === t.id ? ink : 'transparent', fg: (single ? sf : floor) === t.id ? '#fff' : ink, onClick: () => { const first = PLAN.find(r => r.f === t.id && r.desc); this.setState({ floor: t.id, sel: t.id === 'all' || s.f === t.id ? sel : first.id }); } })),
+      explodeLabel: exploded ? 'Stack floors' : 'Explode floors',
+      toggleExplode: () => this.setState({ exploded: !exploded }),
+      sel: { ...s, floorLabel: FLOORS.find(F => F.id === s.f).label, dimsLine: s.dims ? s.dims + ' · ' + roomPhotos(s.id).filter(p => !p.ph).length + ' photos' : '' },
+      ...(() => {
+        const photos = roomPhotos(s.id); const n = photos.length || 1; const pi = Math.min(this.state.pi, n - 1); const p = photos[pi] || { ph: true, label: s.name };
+        const real = photos.filter(x => !x.ph);
+        return {
+          ph: { isImg: !p.ph, isPh: !!p.ph, url: p.url || '', cap: p.cap || p.label, label: p.label || '', pos: (pi + 1) + ' / ' + n },
+          phPrev: () => this.setState({ pi: (pi - 1 + n) % n }),
+          phNext: () => this.setState({ pi: (pi + 1) % n }),
+          phThumbs: photos.map((x, i) => ({ isImg: !x.ph, url: x.url || '', cap: x.cap || x.label, ring: i === pi ? ink : 'transparent', op: i === pi ? 1 : 0.7, onClick: () => this.setState({ pi: i }) })),
+          openRoomLb: () => { const idx = Math.max(0, real.indexOf(p)); this.setState({ lbList: real.map(x => ({ full: x.url, cap: s.name + ' · ' + x.cap })), lb: idx }); }
+        };
+      })(),
+      chips: PLAN.filter(r => r.f === chipFloor && r.desc).map(r => ({ name: r.name, bg: r.id === sel ? ink : 'transparent', fg: r.id === sel ? '#fff' : ink, border: r.id === sel ? ink : 'oklch(0.84 0.012 85)', onClick: () => pick(r) }))
+    };
+  }
+  get season() { return this.state.season ?? this.props.defaultSeason ?? 'summer'; }
+  renderVals() {
+    const s = this.season === 'summer';
+    const ink = 'var(--ink, oklch(0.25 0.03 245))', paper = 'oklch(0.975 0.008 85)';
+    const m = 'https://a0.muscache.com/im/pictures/miso/Hosting-13389344/original/';
+    return {
+      ...this.planVals(),
+      ...this.calVals(),
+      ...this.galVals(),
+      ...(() => {
+        const list = (s ? HERO.summer() : HERO.winter()).filter(x => x[0]);
+        const cur = this.state.hero % list.length;
+        return {
+          heroSlides: list.map(([src, alt], i) => ({ src, alt, op: i === cur ? 1 : 0, zoom: i === cur ? 1.06 : 1 })),
+          heroDots: list.map((x, i) => ({ label: 'Show ' + x[1], w: i === cur ? '28px' : '12px', op: i === cur ? 1 : 0.55, onClick: () => { this.setState({ hero: i }); this.startHero(); } }))
+        };
+      })(),
+      mapsH: this.state.mapsH,
+      ...(() => { const cur = this.state.theme || (typeof localStorage !== 'undefined' && localStorage.getItem('bh-theme')) || this.props.theme || 'A'; const T = THEMES[cur] || THEMES.A;
+        return { themeVars: s ? T.vars : { ...T.vars, ...(THEME_WINTER[cur] || {}) }, themeUiOpen: !!this.state.themeUi, themeToggleLabel: this.state.themeUi ? 'Style ×' : 'Style · ' + cur + ' ' + T.name, toggleThemeUi: () => this.setState(s => ({ themeUi: !s.themeUi })), themeOpts: Object.keys(THEMES).map(k => ({ label: k + ' ' + THEMES[k].name, name: THEMES[k].name, bg: k === cur ? '#141c28' : 'transparent', fg: k === cur ? '#fff' : '#333', onClick: () => { try { localStorage.setItem('bh-theme', k); } catch (e) {} this.setState({ theme: k }); } })) }; })(),
+      isSummer: s, isWinter: !s,
+      showRating: this.props.showRating ?? true,
+      searched: this.state.searched,
+      setSummer: () => this.setState({ season: 'summer' }),
+      setWinter: () => this.setState({ season: 'winter' }),
+      summerBg: s ? ink : 'transparent', summerFg: s ? '#fff' : ink,
+      winterBg: !s ? ink : 'transparent', winterFg: !s ? '#fff' : ink,
+      summerBgDark: s ? paper : 'transparent', summerFgDark: s ? ink : paper,
+      winterBgDark: !s ? paper : 'transparent', winterFgDark: !s ? ink : paper,
+      onSearch: e => { e.preventDefault(); this.setState({ searched: true }); },
+      rooms: [
+        ['shelley','Shelley Beach','Room 1','f',[[D]],'1 double bed','First floor · Ensuite shower'],
+        ['checkstone','Checkstone','Room 2','f',[[S,S],[SK]],'2 single beds or 1 super king','First floor · Shares the East wing'],
+        ['cocklesands','Cocklesands','Room 3','f',[[S,S],[SK]],'2 single beds or 1 super king','First floor · Ensuite shower'],
+        ['spinnakers','Spinnakers','Room 4','f',[[K]],'1 king bed','First floor · Ensuite shower · Sea views'],
+        ['kingslake','Kings Lake','Room 5','f',[[S,S],[SK]],'2 single beds or 1 super king','First floor · Sea views'],
+        ['pebblebed','Pebblebed','Room 6','f',[[K]],'1 king bed','First floor · Ensuite bath · Sea views'],
+        ['shaggles','Shaggles','Room 7','f',[[K]],'1 king bed','First floor · Ensuite shower · Sea views'],
+        ['orcombe','Orcombe','Room 8','f',[[D]],'1 double bed','First floor · Ensuite shower'],
+        ['ottercove','Otter Cove','Room 9','s',[[S,S],[SK]],'2 single beds or 1 super king','Second floor · Ensuite shower · Sea views'],
+        ['sandybay','Sandy Bay','Room 10','s',[[K]],'1 king bed','Second floor · Ensuite shower · Sea views']
+      ].map(([id, name, no, f, cfg, beds, meta]) => ({
+        name, no, beds, meta,
+        count: roomPhotos(id).filter(p => !p.ph).length + ' photos',
+        thumbs: (ps => ps.map((p, i) => ({ isImg: true, isPh: false, url: p.url, area: ps.length === 1 ? '1 / 1 / 3 / 3' : ps.length === 2 ? (i === 0 ? '1 / 1 / 3 / 2' : '1 / 2 / 3 / 3') : (i === 0 ? '1 / 1 / 3 / 2' : i === 1 ? '1 / 2 / 2 / 3' : '2 / 2 / 3 / 3') })))(roomPhotos(id).slice(0, 3)),
+        groups: cfg.map((bs, i) => ({ sep: i > 0, color: i === 0 ? 'oklch(0.48 0.06 215)' : 'oklch(0.78 0.012 245)', beds: bs })),
+        onClick: () => { this.setState({ sel: id, floor: f, pi: 0 }); const el = document.getElementById('floorplan'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' }); }
+      })),
+      reviews: [
+        { quote: 'Four families (15 persons) met up for our annual reunion… The kitchen is well equipped to deal with large groups and the huge dining room easily sat us all.', who: 'Annual reunion', meta: 'November 2019' },
+        { quote: 'Spent the Bank Holiday celebrating my 50th Birthday in this beautiful house - 18 adults & a 12mth old baby. This is a truly amazing house in a perfect location with great facilities… a real home from home.', who: 'Ali', meta: 'May 2022' },
+        { quote: 'We had 23 people in the house over Xmas 2019. We tried to book for next Xmas but unfortunately it is already booked!', who: 'Christmas stay', meta: 'December 2019' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

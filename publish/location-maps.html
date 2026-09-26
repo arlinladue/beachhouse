@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Beach House · Location</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: oklch(0.975 0.008 85); font-family: 'Hanken Grotesk', system-ui, sans-serif; color: oklch(0.25 0.03 245); }
+  a { color: oklch(0.48 0.06 215); } a:hover { color: oklch(0.25 0.03 245); }
+  .tabs { display: flex; gap: 2px; padding: 3px; border-radius: 999px; border: 1px solid oklch(0.84 0.012 85); background: oklch(0.985 0.005 85); width: max-content; max-width: 100%; flex-wrap: wrap; margin-bottom: 16px; }
+  .tabs button { border: 0; cursor: pointer; padding: 8px 16px; border-radius: 999px; font: inherit; font-size: 13px; background: transparent; color: oklch(0.25 0.03 245); }
+  .tabs button.on { background: oklch(0.25 0.03 245); color: #fff; }
+  .wrap { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; }
+  @media (max-width: 760px) { .wrap { grid-template-columns: 1fr; } }
+  #map { height: 480px; background: oklch(0.9 0.012 85); }
+  .leaflet-tile-pane { filter: saturate(0.35) sepia(0.12) contrast(0.95) brightness(1.03); }
+  .leaflet-container { font-family: inherit; }
+  .lbl { background: oklch(0.985 0.005 85); border: 0; border-radius: 0; box-shadow: 0 1px 4px rgba(20,30,45,0.18); color: oklch(0.25 0.03 245); font-size: 12px; font-weight: 500; padding: 3px 7px; }
+  .lbl::before { display: none; }
+  .lbl.home { background: oklch(0.25 0.03 245); color: #fff; font-weight: 600; }
+  .num { width: 20px; height: 20px; border-radius: 50%; background: oklch(0.48 0.06 215); color: #fff; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.25); }
+  .num.on { background: oklch(0.25 0.03 245); transform: scale(1.2); }
+  .pin { width: 18px; height: 18px; border-radius: 50%; background: oklch(0.25 0.03 245); border: 3px solid #fff; box-shadow: 0 0 0 6px oklch(0.25 0.03 245 / 0.18); }
+  ol { list-style: none; margin: 0; padding: 0; display: grid; }
+  li { display: grid; grid-template-columns: 26px 1fr auto; gap: 10px; align-items: center; padding: 11px 0; border-bottom: 1px solid oklch(0.9 0.01 85); cursor: pointer; font-size: 14px; }
+  li:hover b, li.on b { color: oklch(0.48 0.06 215); }
+  li i { font-style: normal; width: 20px; height: 20px; border-radius: 50%; background: oklch(0.48 0.06 215); color: #fff; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+  li b { font-weight: 500; }
+  li span { font-size: 12px; color: oklch(0.45 0.02 245); text-align: right; white-space: nowrap; }
+  .note { font-size: 12px; color: oklch(0.45 0.02 245); margin: 0 0 8px; }
+</style>
+</head>
+<body>
+<div class="tabs" id="tabs"></div>
+<div class="wrap">
+  <div id="map"></div>
+  <div><p class="note" id="note"></p><ol id="list"></ol></div>
+</div>
+<script>
+const HOME = [50.611424082726664,-3.394813624265211];
+const SETS = {"walk":{"label":"Walking","note":"Straight-line distance, with a rough walking time.","zoom":15,"items":[["Exmouth Beach",[50.6135,-3.404]],["The Maer",[50.614,-3.396]],["Orcombe Point",[50.6088,-3.379]],["Rodney Point",[50.6097,-3.3862]],["Phear Park",[50.62617,-3.39944]],["Exmouth station",[50.62465,-3.41239]],["Exe Estuary Trail",[50.62956,-3.41109]],["Marina",[50.62078,-3.42238]]]},"food":{"label":"Restaurants","note":"Places marked on your map screenshot.","zoom":15,"items":[["Bumble and Sea",[50.6105,-3.3905]],["Heydays",[50.6128,-3.4]],["The Engine Room",[50.61657,-3.41072]],["Krispies",[50.62605,-3.40758]],["Rockfish",[50.62125,-3.42238]]]},"beach":{"label":"Beaches","note":"Sand and shingle within a short drive.","zoom":12,"items":[["Exmouth Beach",[50.6135,-3.404]],["Orcombe Point",[50.6088,-3.379]],["Sandy Bay",[50.6045,-3.3635]],["Dawlish Warren",[50.60581,-3.44532]],["Budleigh Salterton",[50.6297,-3.3207]],["Ladram Bay",[50.6602,-3.2805]],["Sidmouth",[50.678,-3.239]]]},"trips":{"label":"Day trips","note":"East Devon and the Exe estuary.","zoom":10,"items":[["A La Ronde",[50.6425,-3.4079]],["Topsham",[50.6843,-3.465]],["Powderham Castle",[50.6433,-3.4589]],["Bicton Park",[50.6598,-3.3207]],["Crealy",[50.704,-3.428]],["Woodbury Common",[50.676,-3.37]],["Exeter Cathedral",[50.7226,-3.5297]],["Sidmouth",[50.678,-3.239]]]}};
+const km = (a, b) => { const R = 6371, r = Math.PI / 180, dLa = (b[0] - a[0]) * r, dLo = (b[1] - a[1]) * r; const s = Math.sin(dLa / 2) ** 2 + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dLo / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(s)); };
+const map = L.map('map', { scrollWheelZoom: false }).setView(HOME, 14);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap contributors' }).addTo(map);
+L.marker(HOME, { icon: L.divIcon({ className: '', html: '<div class="pin"></div>', iconSize: [24, 24], iconAnchor: [12, 12] }), zIndexOffset: 1000 }).addTo(map).bindTooltip('The Beach House', { permanent: true, direction: 'top', offset: [0, -12], className: 'lbl home' });
+const layer = L.layerGroup().addTo(map);
+let cur = localStorage.getItem('bh-map-set') || 'walk'; if (!SETS[cur]) cur = 'walk';
+const tabs = document.getElementById('tabs');
+Object.entries(SETS).forEach(([k, s]) => { const b = document.createElement('button'); b.textContent = s.label; b.onclick = () => show(k); b.dataset.k = k; tabs.appendChild(b); });
+function show(k) {
+  cur = k; try { localStorage.setItem('bh-map-set', k); } catch (e) {}
+  [...tabs.children].forEach(b => b.classList.toggle('on', b.dataset.k === k));
+  const s = SETS[k]; document.getElementById('note').textContent = s.note;
+  layer.clearLayers(); const list = document.getElementById('list'); list.innerHTML = '';
+  const items = s.items.map(([n, ll]) => ({ n, ll, d: km(HOME, ll) })).sort((a, b) => a.d - b.d);
+  const marks = [];
+  items.forEach((it, i) => {
+    const m = L.marker(it.ll, { icon: L.divIcon({ className: '', html: '<div class="num">' + (i + 1) + '</div>', iconSize: [20, 20], iconAnchor: [10, 10] }) }).addTo(layer).bindTooltip(it.n, { direction: 'right', offset: [10, 0], className: 'lbl' });
+    marks.push(m);
+    const li = document.createElement('li');
+    const dist = it.d < 10 ? it.d.toFixed(1) : Math.round(it.d);
+    const extra = k === 'walk' ? ' · ~' + Math.max(5, Math.round(it.d * 1.3 / 4.8 * 60 / 5) * 5) + ' min' : '';
+    li.innerHTML = '<i>' + (i + 1) + '</i><b>' + it.n + '</b><span>' + dist + ' km' + extra + '</span>';
+    li.onmouseenter = () => { m.openTooltip(); m.getElement().firstChild.classList.add('on'); };
+    li.onmouseleave = () => { m.closeTooltip(); m.getElement().firstChild.classList.remove('on'); };
+    li.onclick = () => map.panTo(it.ll);
+    list.appendChild(li);
+  });
+  map.fitBounds(L.latLngBounds([HOME, ...items.map(i => i.ll)]), { paddingTopLeft: [40, 40], paddingBottomRight: [120, 40] });
+  post();
+}
+const post = () => parent.postMessage({ bhMapsHeight: document.body.scrollHeight }, '*');
+addEventListener('resize', post); addEventListener('load', post);
+show(cur);
+</script>
+</body>
+</html>
