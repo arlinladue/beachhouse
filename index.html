@@ -9,7 +9,7 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&amp;family=Libre+Caslon+Text:ital,wght@0,400;1,400&amp;family=Hanken+Grotesk:wght@400;500;600&amp;family=Raleway:wght@400;500;600;700&amp;family=Instrument+Serif:ital@0;1&amp;family=Karla:wght@400;500;600&amp;family=Jost:wght@300;400;500&amp;family=Libre+Baskerville:ital,wght@0,400;1,400&amp;family=Newsreader:opsz,wght@6..72,300;6..72,400&amp;family=Mulish:wght@300;400;500&amp;family=Tinos:ital@0;1&amp;family=Inter+Tight:wght@400;500&amp;family=Inter:wght@400;500&amp;family=EB+Garamond:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Libre+Caslon+Display&amp;family=Libre+Caslon+Text:ital,wght@0,400;1,400&amp;family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:oklch(0.975 0.008 85);color:oklch(0.25 0.03 245);font-family:'Hanken Grotesk',sans-serif;-webkit-font-smoothing:antialiased}
 a{color:oklch(0.25 0.03 245);text-decoration:none}
@@ -17,6 +17,14 @@ a:hover{color:oklch(0.48 0.06 215)}
 *{box-sizing:border-box}
 input,select,button{font:inherit}
 section,header,footer,section>div{transition:background-color .6s ease,color .6s ease}
+.bh-logo{display:inline-flex;flex-direction:column;align-items:center;font-family:'Bebas Neue',sans-serif;font-weight:400;color:var(--ink, oklch(0.25 0.03 245));line-height:1}
+.bh-logo span{display:block;line-height:1;text-box:trim-both cap alphabetic;white-space:nowrap}
+.bh-logo .t1{font-size:calc(var(--H)*0.7286);letter-spacing:0.219em;margin-right:-0.219em}
+.bh-logo .bw{display:flex;margin-top:calc(var(--H)*0.37);text-box:none}
+.bh-logo .bw span{font-size:calc(var(--H)*1.367);letter-spacing:0.204em;margin-right:-0.204em}
+.bh-logo .bw .w2{margin-left:calc(var(--H)*0.46)}
+.bh-logo .rl{width:calc(var(--H)*7.85);height:max(1px,calc(var(--H)*0.039));background:currentColor;margin-top:calc(var(--H)*0.35);align-self:flex-start;margin-left:calc(var(--H)*0.056)}
+.bh-logo .t2{font-size:calc(var(--H)*0.7423);letter-spacing:0.216em;margin-right:-0.216em;margin-top:calc(var(--H)*0.375)}
 </style>
 </helmet>
 
@@ -25,10 +33,7 @@ section,header,footer,section>div{transition:background-color .6s ease,color .6s
 
 <header style="position:sticky;top:0;z-index:10;background:var(--paperA, oklch(0.975 0.008 85 / 0.94));backdrop-filter:blur(10px);border-bottom:1px solid var(--line, oklch(0.9 0.01 85))">
   <div style="max-width:1400px;margin:0 auto;padding:14px clamp(20px,4vw,48px);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
-    <a href="#top" style="display:flex;align-items:baseline;gap:12px">
-      <span style="font-family:var(--logoFont, 'Libre Caslon Display',serif);font-size:var(--logoSize, 24px);text-transform:var(--logoCase, none);letter-spacing:var(--logoTrack, 0);font-weight:var(--logoWeight, 400)">The Beach House</span>
-      <span style="font-size:11px;letter-spacing:0.28em;text-transform:uppercase;color:var(--muted, oklch(0.48 0.02 245))">Exmouth</span>
-    </a>
+    <a href="#top" class="bh-logo" aria-label="The Beach House, Exmouth" style="--H:20px"><span class="t1">The</span><span class="bw"><span>Beach</span><span class="w2">House</span></span><span class="rl"></span><span class="t2">Exmouth</span></a>
     <nav style="display:flex;gap:28px;flex-wrap:wrap;font-size:14px">
       <a href="#house">The House</a>
       <a href="#bedrooms">Bedrooms</a>
@@ -463,7 +468,7 @@ section,header,footer,section>div{transition:background-color .6s ease,color .6s
 </section>
 
 <footer style="max-width:1400px;margin:0 auto;padding:40px clamp(20px,4vw,48px) 56px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:14px;color:var(--muted, oklch(0.42 0.02 245))">
-  <span style="font-family:var(--display, 'Libre Caslon Display',serif);font-size:20px;color:var(--ink, oklch(0.25 0.03 245))">The Beach House, Exmouth</span>
+  <div class="bh-logo" aria-label="The Beach House, Exmouth" style="--H:18px"><span class="t1">The</span><span class="bw"><span>Beach</span><span class="w2">House</span></span><span class="rl"></span><span class="t2">Exmouth</span></div>
   <div style="display:flex;gap:24px;flex-wrap:wrap">
     <a href="https://www.instagram.com/thebeachhouseexmouth">Instagram</a>
     <a href="https://www.facebook.com/TheBeachHouseExmouth/">Facebook</a>
@@ -472,12 +477,6 @@ section,header,footer,section>div{transition:background-color .6s ease,color .6s
   </div>
 </footer>
 
-</div>
-<div style="position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:40;display:flex;align-items:center;gap:4px;padding:4px;border-radius:999px;background:rgba(255,255,255,0.92);box-shadow:0 4px 18px rgba(20,30,45,0.18);font-family:'Hanken Grotesk',sans-serif;backdrop-filter:blur(8px)">
-  <button onClick="{{ toggleThemeUi }}" style="border:0;cursor:pointer;background:transparent;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#555;padding:6px 8px 6px 10px">{{ themeToggleLabel }}</button>
-  <sc-if value="{{ themeUiOpen }}"><sc-for list="{{ themeOpts }}" as="o" hint-placeholder-count="6">
-    <button onClick="{{ o.onClick }}" title="{{ o.name }}" style="border:0;cursor:pointer;padding:7px 13px;border-radius:999px;font-size:13px;background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button>
-  </sc-for></sc-if>
 </div>
 </div>
 
@@ -660,14 +659,9 @@ ROOM_PHOTOS.patio = [['Beach_House_Jul_20_084-Pano', 'The terrace'], ['Q2_042', 
 ROOM_PHOTOS.showers = [['garden_July_2019-53', 'Outdoor showers']];
 ROOM_PHOTOS.parking = [['gate.original', 'Welcome in'], ['BC33ECA3', 'Electric charging'], ['Beach_House_Jul_20_162', 'Arriving at the house']];
 const THEMES = {
-  A: { name: 'Original', vars: {} },
-  B: { name: 'Bloom', vars: { '--paper': '#ECEBE1', '--paperA': 'rgba(236,235,225,0.94)', '--paper2': '#E3E1D4', '--paper2h': '#D9D7C8', '--ink': '#141414', '--deep': '#1E1E1B', '--accent': 'oklch(0.52 0.11 75)', '--muted': '#46453F', '--line': '#D2D0C2', '--btn': '#F6C762', '--btnFg': '#141414', '--btnHover': '#EDB84A', '--avail': '#F3E3B5', '--display': "'Raleway',sans-serif", '--serif': "'EB Garamond',serif", '--sans': "'Raleway',sans-serif", '--logoFont': "'Raleway',sans-serif", '--logoCase': 'uppercase', '--logoTrack': '0.16em', '--logoWeight': '700', '--logoSize': '18px' } },
-  C: { name: 'Hales', vars: { '--paper': '#FFFFFF', '--paper2': '#EFEAF2', '--paper2h': '#E6DFEB', '--ink': '#161616', '--deep': '#373C24', '--paperA': 'rgba(249,246,239,0.96)', '--btnHover': '#333333', '--accent': '#5F6441', '--muted': '#4A4A4A', '--line': '#E4E1E7', '--btn': '#111111', '--btnFg': '#FFFFFF', '--avail': '#E4E7D6', '--display': "'Instrument Serif',serif", '--serif': "'Karla',sans-serif", '--sans': "'Karla',sans-serif", '--logoFont': "'Instrument Serif',serif", '--logoCase': 'uppercase', '--logoTrack': '0.1em', '--logoSize': '22px' } },
-  D: { name: 'Clove', vars: { '--paper': '#FFFFFF', '--paperA': 'rgba(255,255,255,0.94)', '--paper2': '#F7F2EF', '--paper2h': '#EFE6E1', '--ink': '#36403C', '--deep': '#34413A', '--accent': '#B8705A', '--muted': '#5A5A5A', '--line': '#E7E2DF', '--btn': '#B5694F', '--btnFg': '#FFFFFF', '--btnHover': '#A45C44', '--avail': '#F4DED5', '--display': "'Newsreader',serif", '--dw': '300', '--serif': "'Mulish',sans-serif", '--sans': "'Mulish',sans-serif", '--logoFont': "'Newsreader',serif", '--logoWeight': '400', '--logoSize': '24px' } },
-  E: { name: 'Suffolk', vars: { '--paper': '#F5F4E8', '--paperA': 'rgba(245,244,232,0.94)', '--paper2': '#ECE9DA', '--paper2h': '#E4E0CE', '--ink': '#1F1F1B', '--deep': '#55554A', '--accent': '#6E6E57', '--muted': '#45453D', '--line': '#CFCCBC', '--btn': '#6E6D58', '--btnFg': '#FFFFFF', '--btnHover': '#5E5D4A', '--avail': '#E2E0CD', '--display': "'Tinos',serif", '--serif': "'Tinos',serif", '--sans': "'Tinos',serif", '--logoFont': "'Tinos',serif", '--logoSize': '26px' } },
-  F: { name: 'Kanzo', vars: { '--paper': '#F4F4F3', '--paperA': 'rgba(244,244,243,0.94)', '--paper2': '#FFFFFF', '--paper2h': '#ECECEA', '--ink': '#111111', '--deep': '#2F3E38', '--accent': '#4F6B5E', '--muted': '#5C5C5C', '--line': '#E0E0DD', '--btn': '#4F6B5E', '--btnFg': '#FFFFFF', '--btnHover': '#435C50', '--avail': '#DCE5DF', '--display': "'Inter Tight',sans-serif", '--dw': '500', '--dls': '-0.03em', '--serif': "'Newsreader',serif", '--sans': "'Inter',sans-serif", '--logoFont': "'Inter',sans-serif", '--logoCase': 'uppercase', '--logoTrack': '0.04em', '--logoWeight': '500', '--logoSize': '16px' } }
+  A: { name: 'Original', vars: {} }
 };
-const THEME_WINTER = {"A":{"--paper":"oklch(0.965 0.01 70)","--paperA":"oklch(0.965 0.01 70 / 0.94)","--paper2":"oklch(0.935 0.018 60)","--paper2h":"oklch(0.915 0.022 60)","--deep":"oklch(0.22 0.035 260)","--btn":"oklch(0.22 0.035 260)","--btnHover":"oklch(0.3 0.04 260)","--accent":"oklch(0.48 0.1 35)","--avail":"oklch(0.91 0.04 50)","--line":"oklch(0.87 0.015 60)"},"B":{"--paper":"#E7E4D8","--paperA":"rgba(231,228,216,0.94)","--paper2":"#DDD8C8","--paper2h":"#D2CCBA","--deep":"#2A2822","--accent":"#94502D","--avail":"#EBD6C1","--btn":"#E3A94B","--btnHover":"#D69A3C"},"C":{"--paper":"#F8F4EE","--paperA":"rgba(248,244,238,0.96)","--paper2":"#EEDFE2","--paper2h":"#E5D1D6","--deep":"#3B2530","--accent":"#7D3A50","--avail":"#EFDCE1","--line":"#E6DADB","--btn":"#3B2530","--btnHover":"#4E3140"},"D":{"--paper2":"#F0E8E3","--paper2h":"#E7DCD5","--deep":"#2A302C","--accent":"#9A4A36","--btn":"#9A4A36","--btnHover":"#86402F","--avail":"#EFD8CE"},"E":{"--paper":"#EFECDF","--paperA":"rgba(239,236,223,0.94)","--paper2":"#E4DFCD","--paper2h":"#DAD4BF","--deep":"#3E3931","--accent":"#6B5E4B","--btn":"#5A5145","--btnHover":"#4A433A","--avail":"#E4DAC6"},"F":{"--paper":"#EDEDEA","--paperA":"rgba(237,237,234,0.94)","--paper2":"#F8F8F6","--deep":"#232A27","--accent":"#3D4F47","--btn":"#3D4F47","--btnHover":"#33433C","--avail":"#D5DED8"}};
+const THEME_WINTER = {"A":{"--paper":"oklch(0.965 0.01 70)","--paperA":"oklch(0.965 0.01 70 / 0.94)","--paper2":"oklch(0.935 0.018 60)","--paper2h":"oklch(0.915 0.022 60)","--deep":"oklch(0.22 0.035 260)","--btn":"oklch(0.22 0.035 260)","--btnHover":"oklch(0.3 0.04 260)","--accent":"oklch(0.48 0.1 35)","--avail":"oklch(0.91 0.04 50)","--line":"oklch(0.87 0.015 60)"}};
 const CAL = ['---BBBBBB-BBBSAAABBBSAAASBBSAA','ABBBBBBBBBB---BBB--B--BBB-BBBSA','A---BBB-SAAASAASAAASAASAAASAAS','AAASAASAAASAASAAA--BBBBBBBB-BBB','B------SAASAAASAASAAASAASAAASAA','SAAASAASAAASAASAAASAASAAASAA','SAAABBB---BBBB---BBB-SAAABBBBBB','-BBBBBBBSAASAAASAA--BBBB-SAAAB','BBSAAABBBSAAABBBSAAABBBBBBBBBBB','BBBSAA'+'B'.repeat(21)+'SAA','A'+'B'.repeat(10)+'SAAA'+'B'.repeat(16),'B'.repeat(31)];
 const DAYS = []; const MSTART = [];
 CAL.forEach((s, mi) => { MSTART.push(DAYS.length); [...s].forEach((st, d) => DAYS.push({ mi, d: d + 1, st, date: new Date(2026, 8 + mi, d + 1) })); });
@@ -870,8 +864,7 @@ class Component extends DCLogic {
         };
       })(),
       mapsH: this.state.mapsH,
-      ...(() => { const cur = this.state.theme || (typeof localStorage !== 'undefined' && localStorage.getItem('bh-theme')) || this.props.theme || 'A'; const T = THEMES[cur] || THEMES.A;
-        return { themeVars: s ? T.vars : { ...T.vars, ...(THEME_WINTER[cur] || {}) }, themeUiOpen: !!this.state.themeUi, themeToggleLabel: this.state.themeUi ? 'Style ×' : 'Style · ' + cur + ' ' + T.name, toggleThemeUi: () => this.setState(s => ({ themeUi: !s.themeUi })), themeOpts: Object.keys(THEMES).map(k => ({ label: k + ' ' + THEMES[k].name, name: THEMES[k].name, bg: k === cur ? '#141c28' : 'transparent', fg: k === cur ? '#fff' : '#333', onClick: () => { try { localStorage.setItem('bh-theme', k); } catch (e) {} this.setState({ theme: k }); } })) }; })(),
+      ...({ themeVars: s ? THEMES.A.vars : { ...THEMES.A.vars, ...THEME_WINTER.A } }),
       isSummer: s, isWinter: !s,
       showRating: this.props.showRating ?? true,
       searched: this.state.searched,
