@@ -411,7 +411,7 @@ section,header,footer,section>div{transition:background-color .6s ease,color .6s
       <div style="display:grid;gap:16px;max-width:640px">
         <span style="font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent, oklch(0.48 0.06 215))">Availability</span>
         <h2 style="margin:0;font-family:var(--display, 'Libre Caslon Display',serif);font-weight:var(--dw, 400);letter-spacing:var(--dls, normal);font-size:clamp(34px,3.8vw,52px);line-height:1.08;text-wrap:balance">Pick your dates.</h2>
-        <p style="margin:0;font-size:16px;line-height:1.6;color:var(--muted, oklch(0.4 0.02 245))">Choose an arrival day, then a departure day, and email Steph to book. Minimum three nights; full weeks in school holidays.</p>
+        <p style="margin:0;font-size:16px;line-height:1.6;color:var(--muted, oklch(0.4 0.02 245))">Choose an arrival day, then a departure day, and contact Steph to book. Minimum three nights; full weeks in school holidays.</p>
       </div>
       <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
         <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted, oklch(0.4 0.02 245))">
@@ -441,11 +441,13 @@ section,header,footer,section>div{transition:background-color .6s ease,color .6s
     <div style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line, oklch(0.88 0.012 85));padding-top:24px">
       <div style="display:grid;gap:4px">
         <span style="font-family:var(--display, 'Libre Caslon Display',serif);font-size:24px">{{ calSummary }}</span>
-        <span style="font-size:13px;color:var(--muted, oklch(0.45 0.02 245))">Check-in 16:00 · Check-out 09:30 · Book with Steph: <a href="mailto:stay@thebeachhouseexmouth.co.uk?subject=Beach%20House%20booking" style="text-decoration:underline">stay@thebeachhouseexmouth.co.uk</a> or <a href="tel:07887882866" style="text-decoration:underline">07887 882866</a></span>
+        <span style="font-size:13px;color:var(--muted, oklch(0.45 0.02 245))">Check-in 16:00 · Check-out 09:30 · Steph: stay@thebeachhouseexmouth.co.uk · 07887 882866</span>
       </div>
-      <sc-if value="{{ calReady }}" hint-placeholder-val="{{ false }}">
-        <a href="{{ calMailto }}" style="padding:15px 28px;background:var(--btn, var(--ink, oklch(0.25 0.03 245)));color:var(--btnFg, #fff);font-size:13px;letter-spacing:0.14em;text-transform:uppercase" style-hover="background:var(--btnHover, oklch(0.34 0.04 230));color:var(--btnFg, #fff)">Email Steph to book</a>
-      </sc-if>
+      <div style="display:flex;gap:10px;flex-wrap:wrap" role="group" aria-label="Book with Steph">
+        <a href="{{ calMailto }}" style="padding:15px 24px;background:var(--btn, var(--ink, oklch(0.25 0.03 245)));color:var(--btnFg, #fff);font-size:13px;letter-spacing:0.14em;text-transform:uppercase" style-hover="background:var(--btnHover, oklch(0.34 0.04 230));color:var(--btnFg, #fff)">Email Steph</a>
+        <a href="tel:+447887882866" style="padding:14px 22px;border:1px solid var(--ink, oklch(0.25 0.03 245));color:var(--ink, oklch(0.25 0.03 245));font-size:13px;letter-spacing:0.14em;text-transform:uppercase">Call</a>
+        <a href="{{ calWhatsapp }}" target="_blank" rel="noopener" style="padding:14px 22px;border:1px solid var(--ink, oklch(0.25 0.03 245));color:var(--ink, oklch(0.25 0.03 245));font-size:13px;letter-spacing:0.14em;text-transform:uppercase">WhatsApp</a>
+      </div>
     </div>
   </div>
 </section>
@@ -458,9 +460,10 @@ section,header,footer,section>div{transition:background-color .6s ease,color .6s
       <p style="margin:0;max-width:620px;font-size:17px;line-height:1.6">Short breaks of three nights or more in low and mid season, full weeks during school holidays. Mid-week breaks cost less, and corporate bookings are welcome.</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
         <a href="#availability" style="padding:16px 28px;background:var(--paper, oklch(0.975 0.008 85));color:var(--ink, oklch(0.25 0.03 245));font-size:13px;letter-spacing:0.14em;text-transform:uppercase" style-hover="background:#fff;color:var(--ink, oklch(0.25 0.03 245))">Check availability</a>
-        <a href="mailto:stay@thebeachhouseexmouth.co.uk?subject=Beach%20House%20booking" style="padding:15px 28px;border:1px solid rgba(255,255,255,0.7);color:#fff;font-size:13px;letter-spacing:0.14em;text-transform:uppercase" style-hover="background:rgba(255,255,255,0.12);color:#fff">Email Steph to book</a>
+        <a href="mailto:stay@thebeachhouseexmouth.co.uk?subject=Beach%20House%20booking" style="padding:15px 28px;border:1px solid rgba(255,255,255,0.7);color:#fff;font-size:13px;letter-spacing:0.14em;text-transform:uppercase" style-hover="background:rgba(255,255,255,0.12);color:#fff">Email Steph</a>
+        <a href="https://wa.me/447887882866?text=Hi%20Steph%2C%20I%27d%20like%20to%20ask%20about%20booking%20The%20Beach%20House." target="_blank" rel="noopener" style="padding:15px 28px;border:1px solid rgba(255,255,255,0.7);color:#fff;font-size:13px;letter-spacing:0.14em;text-transform:uppercase" style-hover="background:rgba(255,255,255,0.12);color:#fff">WhatsApp Steph</a>
       </div>
-      <a href="tel:07887882866" style="color:#fff;font-size:15px">Or call Steph on 07887 882866</a>
+      <a href="tel:+447887882866" style="color:#fff;font-size:15px">Or call Steph on 07887 882866</a>
     </div>
   </div>
 </section>
@@ -773,7 +776,8 @@ class Component extends DCLogic {
       calNext: () => this.setState({ calPage: Math.min(CAL.length - 4, calPage + 1) }),
       calPrevOp: calPage === 0 ? 0.35 : 1, calNextOp: calPage >= CAL.length - 4 ? 0.35 : 1,
       calReady: nights > 0,
-      calMailto: nights > 0 ? 'mailto:stay@thebeachhouseexmouth.co.uk?subject=' + encodeURIComponent('Booking request: ' + fmt(DAYS[arr].date) + ' to ' + fmt(DAYS[dep].date)) + '&body=' + encodeURIComponent("Hi Steph,\n\nWe'd like to stay at The Beach House from " + fmt(DAYS[arr].date) + ' to ' + fmt(DAYS[dep].date) + ' (' + nights + ' nights).\n\nNumber of guests:\nName:\nPhone:\n') : '#availability',
+      calMailto: 'mailto:stay@thebeachhouseexmouth.co.uk?subject=' + encodeURIComponent(nights > 0 ? 'Booking request: ' + fmt(DAYS[arr].date) + ' to ' + fmt(DAYS[dep].date) : 'Beach House booking') + (nights > 0 ? '&body=' + encodeURIComponent("Hi Steph,\n\nWe'd like to stay at The Beach House from " + fmt(DAYS[arr].date) + ' to ' + fmt(DAYS[dep].date) + ' (' + nights + ' nights).\n\nNumber of guests:\nName:\nPhone:\n') : ''),
+      calWhatsapp: 'https://wa.me/447887882866?text=' + encodeURIComponent(nights > 0 ? "Hi Steph, we'd like to stay at The Beach House from " + fmt(DAYS[arr].date) + ' to ' + fmt(DAYS[dep].date) + ' (' + nights + ' nights).' : "Hi Steph, I'd like to ask about booking The Beach House."),
       calSummary: arr === null ? 'Select an arrival day' : dep === null ? 'Arrive ' + fmt(DAYS[arr].date) + ' · now choose a departure' : fmt(DAYS[arr].date) + ' to ' + fmt(DAYS[dep].date) + ' · ' + nights + ' nights'
     };
   }
